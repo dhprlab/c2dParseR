@@ -29,8 +29,12 @@ Importing Cyclus2 data from their native `.c2d` file format has several advantag
 
 ## Roadmap
 
-- Implement core parsing functionality for `.c2d` files.
+- Implement core import of all useful `.c2d` information into R data structures.
+- Prepare for installation from GitLab/GitHub as initial distribution channels.
+- Add R documentation.
 - Implement data validation and error handling.
+- Prepare for installation from CRAN.
+- Figure out if measurement units should be added to R data structures.
 - Figure out export into BIDS format; maybe using an existing package?
 - Add example data sets where the consent into this data donation is clarified.
 - Write tests against the example data sets.
