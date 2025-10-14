@@ -2,7 +2,11 @@ Package: c2dParseR
 Title: Parse C2D File Format From Cyclus2 Ergometers
 Version: 0.0.0.9000
 Authors@R: 
-    person("Johannes", "Keyser", , "johannes.keyser@uni-hamburg.de", role = c("aut", "cre"))
+    person(given = "Johannes",
+           family = "Keyser",
+           email= "johannes.keyser@uni-hamburg.de",
+           comment = c(ORCID = "0000-0003-0918-3766"),
+           role = c("aut", "cre"))
 Description: Import and work with raw .c2d output files from Cyclus2 ergometers.
 License: EUPL-1.2
 Encoding: UTF-8
