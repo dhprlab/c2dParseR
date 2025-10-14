@@ -1,6 +1,6 @@
 <!--
 SPDX-FileCopyrightText: 2025 Johannes Keyser <johannes.keyser@uni-hamburg.de>
-SPDX-License-Identifier: CC0-1.0
+SPDX-License-Identifier: EUPL-1.2
 -->
 
 # c2dparseR
@@ -54,4 +54,6 @@ TODO
 
 ## Licensing
 
-EUPL-1.2 for code and CC0-1.0 for anything else, see folder [LICENSES](LICENSES).
+Licensed under EUPL-1.2; see full text in [LICENSE.txt](LICENSE.txt).
+(Dual-licensing for code and data was considered, but deemed impractical due to CRAN's restriction to use a single license.)
+
