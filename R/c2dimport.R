@@ -6,9 +6,6 @@
 c2dimport <- function(path = "path/to/your/example.xml") {
   # Read in a XML file (i.e., a unzipped .c2d file)
   xml_input <- xml2::read_xml(path)
-
-  # Read the XML snippet
-  xml_input <- xml2::read_xml(xml_input)
   # Extract the <Rows> node
   rows_node <- xml2::xml_find_first(xml_input, ".//Rows")
   # Extract all <R*> nodes within <Rows>
