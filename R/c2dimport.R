@@ -1,8 +1,13 @@
-# PURPOSE: Drafting script to read in a .c2d file and convert it to data frames.
-#
-# SPDX-FileCopyrightText: 2025 Johannes Keyser <johannes.keyser@uni-hamburg.de>
-# SPDX-License-Identifier: EUPL-1.2
-
+#' Import row data from an (unpacked) c2d file.
+#'
+#' @param path Path to an XML file (i.e., an unpacked c2d file).
+#'
+#' @returns dataframe containing the row data.
+#' @export
+#'
+#' @examples
+#' # data <- c2dimport("path/to/your/example.xml")
+#'
 c2dimport <- function(path = "path/to/your/example.xml") {
   # Read in a XML file (i.e., a unzipped .c2d file)
   xml_input <- xml2::read_xml(path)
