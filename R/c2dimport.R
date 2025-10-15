@@ -3,11 +3,9 @@
 # SPDX-FileCopyrightText: 2025 Johannes Keyser <johannes.keyser@uni-hamburg.de>
 # SPDX-License-Identifier: EUPL-1.2
 
-library(xml2)
-
-c2dimport <- function(path) {
+c2dimport <- function(path = "path/to/your/example.xml") {
   # Read in a XML file (i.e., a unzipped .c2d file)
-  xml_input <- xml2::read_xml("path/to/your/example.xml")
+  xml_input <- xml2::read_xml(path)
 
   # Read the XML snippet
   xml_input <- xml2::read_xml(xml_input)
