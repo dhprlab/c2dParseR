@@ -15,6 +15,7 @@ ergometers.
 
 <!-- badges: start -->
 
+![badge-experimental](man/figures/lifecycle-experimental.svg)
 <!-- badges: end -->
 
 The goal of c2ParseR is to provide tools for working with `.c2d` files

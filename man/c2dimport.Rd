@@ -13,7 +13,10 @@ c2dimport(path = "path/to/your/example.xml")
 dataframe containing the row data.
 }
 \description{
-Import row data from an (unpacked) c2d file.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+This function is for basic testing.
+The goal is to load directly from C2D files, not just unpacked XML.
 }
 \examples{
 # data <- c2dimport("path/to/your/example.xml")

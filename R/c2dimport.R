@@ -1,5 +1,11 @@
 #' Import row data from an (unpacked) c2d file.
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' This function is for basic testing.
+#' The goal is to load directly from C2D files, not just unpacked XML.
+#'
 #' @param path Path to an XML file (i.e., an unpacked c2d file).
 #'
 #' @returns dataframe containing the row data.
@@ -9,6 +15,7 @@
 #' # data <- c2dimport("path/to/your/example.xml")
 #'
 c2dimport <- function(path = "path/to/your/example.xml") {
+  lifecycle::signal_stage("experimental", "c2dimport()")
   # Read in a XML file (i.e., a unzipped .c2d file)
   xml_input <- xml2::read_xml(path)
   # Extract the <Rows> node
