@@ -1,13 +1,17 @@
 
 <!--
-NOTE: README.md is generated from this file, README.Rmd. Please edit here.
+NOTE: README.md is generated from README.Rmd. Make sure to edit README.Rmd.
 &#10;SPDX-FileCopyrightText: 2025 Johannes Keyser <johannes.keyser@uni-hamburg.de>
 SPDX-License-Identifier: EUPL-1.2
 -->
 
 # c2dParseR
 
-> \[!warning\] 🚧 *This is work in progress, please tread with care.* 🚧
+<div class="{warning}">
+
+🚧 *This is work in progress, please tread with care.* 🚧
+
+</div>
 
 An R package to work with the `.c2d` file format from Cyclus2
 ergometers.
