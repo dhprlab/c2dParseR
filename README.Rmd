@@ -20,9 +20,10 @@ knitr::opts_chunk$set(
 
 # c2dParseR
 
-:::{warning}
-🚧 _This is work in progress, please tread with care._ 🚧
-:::
+```{=gfm}
+> [!warning]
+> 🚧 _This is work in progress, please tread with care._ 🚧
+```
 
 An R package to work with the `.c2d` file format from Cyclus2 ergometers.
 
