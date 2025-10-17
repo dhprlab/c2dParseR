@@ -5,7 +5,7 @@ Authors@R:
     person(given = "Johannes",
            family = "Keyser",
            email= "johannes.keyser@uni-hamburg.de",
-           comment = c(ORCID = "0000-0003-0918-3766"),
+           comment = c(ORCID = "0000-0001-8343-4362"),
            role = c("aut", "cre"))
 Description: Import and work with raw .c2d output files from Cyclus2 ergometers.
 License: EUPL-1.2
