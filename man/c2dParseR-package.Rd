@@ -6,18 +6,21 @@
 \alias{c2dParseR-package}
 \title{c2dParseR: Parse C2D File Format From Cyclus2 Ergometers}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Import and work with raw .c2d output files from Cyclus2 ergometers.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://github.com/dhprlab/c2dParseR}
+  \item \url{https://dhprlab.github.io/c2dParseR/}
   \item Report bugs at \url{https://github.com/dhprlab/c2dParseR/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Johannes Keyser \email{johannes.keyser@uni-hamburg.de} (\href{https://orcid.org/0000-0003-0918-3766}{ORCID})
+\strong{Maintainer}: Johannes Keyser \email{johannes.keyser@uni-hamburg.de} (\href{https://orcid.org/0000-0001-8343-4362}{ORCID})
 
 }
 \keyword{internal}
