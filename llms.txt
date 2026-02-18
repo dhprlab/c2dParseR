@@ -54,18 +54,29 @@ library(c2dParseR)
   structures.
 - Prepare for installation from GitLab/GitHub as initial distribution
   channels.
+- Add [example data](#example-data) that can be used for documentation
+  and testing.
 - Implement data validation and error handling.
 - Prepare for installation from CRAN.
 - Figure out if measurement units should be added to R data structures.
 - Figure out export into BIDS format; maybe using an existing package?
-- Add example data sets for which consent into “unlimited” data use is
-  clarified.
 - Write tests against the example data sets.
 
 ## Example data
 
-We plan to include example data into this project. Please DO NOT include
-data, unless you have explicit consent from the data owner.
+We plan to include example data files into this project. Any included
+data files must only serve a technical purpose, such as showcasing their
+content for documentation and testing the code. If possible, included
+data should NOT reflect human behavior or physiology.
+
+This project aims to avoid the distribution of data that contain any
+personal identifying information as defined by the Eurpean Union’s
+General Data Protection Regulation (GDPR). Note that data about
+performance on an ergometer (like a Wingate test) or physiological
+markers (like heartrate) are inherently personal data, and often fall
+into the GDPR category of Health Data. Adding such data is at odds with
+our goal to distribute this package as widely as possible, for any
+purpose. See also [licensing information](#licensing).
 
 ## Contributing
 
@@ -89,7 +100,10 @@ other languages, see
 <https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12>.
 
 Note: Dual-licensing for code and example data was considered, but
-deemed impractical due to CRAN’s restriction to use a single license.
+deemed impractical due to CRAN’s restriction to use a single license. We
+will thus not add data beyond examples for purely technical purposes,
+avoiding any personal data; see also section [example
+data](#example-data).
 
 # Package index
 

@@ -100,18 +100,19 @@
 <ul>
 <li>Implement basic import of all useful <code>.c2d</code> information into R data structures.</li>
 <li>Prepare for installation from GitLab/GitHub as initial distribution channels.</li>
+<li>Add <a href="#example-data">example data</a> that can be used for documentation and testing.</li>
 <li>Implement data validation and error handling.</li>
 <li>Prepare for installation from CRAN.</li>
 <li>Figure out if measurement units should be added to R data structures.</li>
 <li>Figure out export into BIDS format; maybe using an existing package?</li>
-<li>Add example data sets for which consent into “unlimited” data use is clarified.</li>
 <li>Write tests against the example data sets.</li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="example-data">Example data<a class="anchor" aria-label="anchor" href="#example-data"></a>
 </h2>
-<p>We plan to include example data into this project. Please DO NOT include data, unless you have explicit consent from the data owner.</p>
+<p>We plan to include example data files into this project. Any included data files must only serve a technical purpose, such as showcasing their content for documentation and testing the code. If possible, included data should NOT reflect human behavior or physiology.</p>
+<p>This project aims to avoid the distribution of data that contain any personal identifying information as defined by the Eurpean Union’s General Data Protection Regulation (GDPR). Note that data about performance on an ergometer (like a Wingate test) or physiological markers (like heartrate) are inherently personal data, and often fall into the GDPR category of Health Data. Adding such data is at odds with our goal to distribute this package as widely as possible, for any purpose. See also <a href="#licensing">licensing information</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
@@ -131,7 +132,7 @@
 <h2 id="licensing">Licensing<a class="anchor" aria-label="anchor" href="#licensing"></a>
 </h2>
 <p>This project is licensed under the European Union Public License (EUPL-1.2). See full license text in English at <a href="LICENSE.txt">LICENSE.txt</a>; for other languages, see <a href="https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12" class="external-link uri">https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12</a>.</p>
-<p>Note: Dual-licensing for code and example data was considered, but deemed impractical due to CRAN’s restriction to use a single license.</p>
+<p>Note: Dual-licensing for code and example data was considered, but deemed impractical due to CRAN’s restriction to use a single license. We will thus not add data beyond examples for purely technical purposes, avoiding any personal data; see also section <a href="#example-data">example data</a>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
