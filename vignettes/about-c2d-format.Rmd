@@ -1,0 +1,73 @@
+---
+title: "About the c2d file format"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{about-c2d-format}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+WARNING: 🚧 _This is work in progress, please read with care._ 🚧
+
+```{r setup}
+library(c2dParseR)
+```
+
+The goal of this text is to provide a brief overview of the `.c2d` file format from [Cyclus2 ergometers by RBM elektronik-automation GmbH](https://www.cyclus2.com/en/).
+The text gives an overview what kind of data is contained and how it is organized.
+The intended audience are users who want to extract their research- or training-relevant data from `.c2d` files for analysis in R.
+Any contained data for internal use by the Cyclus2 software is not of interest and thus omitted here.
+
+## Disclaimer
+
+IMPORTANT:
+The text is neither an authorative nor comprehensive reference for the `.c2d` file format.
+The descriptions are based on the authors' understanding, some of which was verified with RBM, but some of which is based on guesses and may be incomplete or inaccurate.
+
+## Structure overview
+
+Technically, `.c2d` files are gzipped XML text files with custom content.
+Let's walk through an "idealized" `.c2d` file, showing the structure of the XML content.
+The rough XML structure inside a `.c2d` file is as follows:
+Inside the `C2D` node, there are 3 main nodes, `System`, `Program`, and `Training`:
+
+- `System` contains information about the athlete, the bike settings, and the environment.
+- `Program` contains information about the Cyclus2 program.
+- `Training` contains the data of the training session, including the date, the header, and the row data for each time point.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<BODY_50>
+  <C2D>
+    <System>
+      <Athlete>[...]</Athlete>
+      <CycleData>[...]</CycleData>
+      <Field>[...]</Field>
+      <VirtDerailleur>[...]</VirtDerailleur>
+      <SysName>somename, somefirstname</SysName>
+    </System>
+    <Program>
+      [...]
+    </Program>
+    <Training>
+      <Date>somedate,sometime</Date>
+      <Header>someheaders</Header>
+      <Run>
+        <RRInt>somerrint</RRInt>
+        <Count>somecount</Count>
+        <Rows>
+          [...]
+        </Rows>
+        <Delay>somedelay</Delay>
+      </Run>
+    </Training>
+  </C2D>
+</BODY_50>
+```

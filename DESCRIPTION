@@ -17,3 +17,7 @@ Imports:
     xml2
 URL: https://github.com/dhprlab/c2dParseR, https://dhprlab.github.io/c2dParseR/
 BugReports: https://github.com/dhprlab/c2dParseR/issues
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
