@@ -2,12 +2,12 @@
 % Please edit documentation in R/c2dimport.R
 \name{c2dimport}
 \alias{c2dimport}
-\title{Import row data from an (unpacked) c2d file.}
+\title{Import row data from a Cyclus2 .c2d file.}
 \usage{
-c2dimport(path = "path/to/your/example.xml")
+c2dimport(path = "path/to/your/example.c2d")
 }
 \arguments{
-\item{path}{Path to an XML file (i.e., an unpacked c2d file).}
+\item{path}{Path to a C2D file (i.e., a gzipped XML file).}
 }
 \value{
 dataframe containing the row data.
@@ -15,10 +15,10 @@ dataframe containing the row data.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-This function is for basic testing.
-The goal is to load directly from C2D files, not just unpacked XML.
+This function is currently experimental.
+The function loads the data Header and Rows from .c2d files.
 }
 \examples{
-# data <- c2dimport("path/to/your/example.xml")
+# rowdata <- c2dimport("path/to/your/example.c2d")
 
 }

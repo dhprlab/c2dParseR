@@ -1,31 +1,40 @@
-#' Import row data from an (unpacked) c2d file.
+#' Import row data from a Cyclus2 .c2d file.
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
-#' This function is for basic testing.
-#' The goal is to load directly from C2D files, not just unpacked XML.
+#' This function is currently experimental.
+#' The function loads the data Header and Rows from .c2d files.
 #'
-#' @param path Path to an XML file (i.e., an unpacked c2d file).
+#' @param path Path to a C2D file (i.e., a gzipped XML file).
 #'
 #' @returns dataframe containing the row data.
 #' @export
 #'
 #' @examples
-#' # data <- c2dimport("path/to/your/example.xml")
+#' # rowdata <- c2dimport("path/to/your/example.c2d")
 #'
-c2dimport <- function(path = "path/to/your/example.xml") {
+c2dimport <- function(path = "path/to/your/example.c2d") {
   lifecycle::signal_stage("experimental", "c2dimport()")
-  # Read in a XML file (i.e., a unzipped .c2d file)
-  xml_input <- xml2::read_xml(path)
-  # Extract the <Rows> node
-  rows_node <- xml2::xml_find_first(xml_input, ".//Rows")
-  # Extract all <R*> nodes within <Rows>
+  # read in a .c2d file (i.e., a gzipped XML file)
+  xml_content <- xml2::read_xml(gzcon(file(path, "rb")))
+  # extract the <Header> node, containing the column names for <Rows> data,
+  # something like "<Header>idStageIndex;idTime;idDistance;...</Header>"
+  header_node <- xml2::xml_find_first(xml_content, ".//Header")
+  # extract column names from the <Header> node
+  column_names <- unlist(strsplit(xml2::xml_text(header_node), ";"))
+  # extract the <Rows> node
+  rows_node <- xml2::xml_find_first(xml_content, ".//Rows")
+  # extract all <R*> nodes within <Rows>
   r_nodes <- xml2::xml_children(rows_node)
-  # Convert each <R*> node to a data frame row
+  # convert each <R*> node to a data frame row
   data_list <- lapply(r_nodes, function(node) {
     as.numeric(unlist(strsplit(xml2::xml_text(node), ";")))
   })
-  # Combine all rows into a single data frame
+  # combine all rows into a single data frame
   data_df <- do.call(rbind, data_list)
+  # assign column names to the data frame
+  colnames(data_df) <- column_names
+  # return the resulting data frame
+  return(as.data.frame(data_df))
 }
