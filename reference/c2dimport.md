@@ -1,9 +1,10 @@
-# Import row data from a Cyclus2 .c2d file.
+# Import data from a Cyclus2 .c2d file.
 
 **\[experimental\]**
 
-This function is currently experimental. The function loads the data
-Header and Rows from .c2d files.
+Load the Athlete data, CycleData, and the Row data from a .c2d file into
+a single tidyverse tibble. This function is currently experimental, but
+hopefully already useful.
 
 ## Usage
 
@@ -19,10 +20,10 @@ c2dimport(path = "path/to/your/example.c2d")
 
 ## Value
 
-dataframe containing the row data.
+A tibble containing the Athlete, Cycle, and Row data.
 
 ## Examples
 
 ``` r
-# rowdata <- c2dimport("path/to/your/example.c2d")
+# data <- c2dimport("path/to/your/example.c2d")
 ```

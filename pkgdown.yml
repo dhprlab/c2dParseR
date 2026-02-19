@@ -3,7 +3,7 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   about-c2d-format: about-c2d-format.html
-last_built: 2026-02-19T13:25Z
+last_built: 2026-02-19T21:05Z
 urls:
   reference: https://dhprlab.github.io/c2dParseR/reference
   article: https://dhprlab.github.io/c2dParseR/articles
