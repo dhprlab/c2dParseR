@@ -1,21 +1,21 @@
-# Import row data from an (unpacked) c2d file.
+# Import row data from a Cyclus2 .c2d file.
 
 **\[experimental\]**
 
-This function is for basic testing. The goal is to load directly from
-C2D files, not just unpacked XML.
+This function is currently experimental. The function loads the data
+Header and Rows from .c2d files.
 
 ## Usage
 
 ``` r
-c2dimport(path = "path/to/your/example.xml")
+c2dimport(path = "path/to/your/example.c2d")
 ```
 
 ## Arguments
 
 - path:
 
-  Path to an XML file (i.e., an unpacked c2d file).
+  Path to a C2D file (i.e., a gzipped XML file).
 
 ## Value
 
@@ -24,5 +24,5 @@ dataframe containing the row data.
 ## Examples
 
 ``` r
-# data <- c2dimport("path/to/your/example.xml")
+# rowdata <- c2dimport("path/to/your/example.c2d")
 ```
