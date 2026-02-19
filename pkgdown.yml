@@ -1,8 +1,9 @@
 pandoc: 3.1.11
 pkgdown: 2.2.0
 pkgdown_sha: ~
-articles: {}
-last_built: 2026-02-19T06:01Z
+articles:
+  about-c2d-format: about-c2d-format.html
+last_built: 2026-02-19T09:55Z
 urls:
   reference: https://dhprlab.github.io/c2dParseR/reference
   article: https://dhprlab.github.io/c2dParseR/articles

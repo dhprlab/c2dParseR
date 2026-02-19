@@ -1,5 +1,7 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://dhprlab.github.io/c2dParseR/404.html</loc></url>
+<url><loc>https://dhprlab.github.io/c2dParseR/articles/about-c2d-format.html</loc></url>
+<url><loc>https://dhprlab.github.io/c2dParseR/articles/index.html</loc></url>
 <url><loc>https://dhprlab.github.io/c2dParseR/authors.html</loc></url>
 <url><loc>https://dhprlab.github.io/c2dParseR/index.html</loc></url>
 <url><loc>https://dhprlab.github.io/c2dParseR/reference/c2dParseR-package.html</loc></url>
