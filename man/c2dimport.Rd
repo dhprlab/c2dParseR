@@ -2,7 +2,7 @@
 % Please edit documentation in R/c2dimport.R
 \name{c2dimport}
 \alias{c2dimport}
-\title{Import row data from a Cyclus2 .c2d file.}
+\title{Import data from a Cyclus2 .c2d file.}
 \usage{
 c2dimport(path = "path/to/your/example.c2d")
 }
@@ -10,15 +10,16 @@ c2dimport(path = "path/to/your/example.c2d")
 \item{path}{Path to a C2D file (i.e., a gzipped XML file).}
 }
 \value{
-dataframe containing the row data.
+A tibble containing the Athlete, Cycle, and Row data.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-This function is currently experimental.
-The function loads the data Header and Rows from .c2d files.
+Load the Athlete data, CycleData, and the Row data from a .c2d file
+into a single tidyverse tibble.
+This function is currently experimental, but hopefully already useful.
 }
 \examples{
-# rowdata <- c2dimport("path/to/your/example.c2d")
+# data <- c2dimport("path/to/your/example.c2d")
 
 }
