@@ -83,21 +83,21 @@ here.</p>
 <div class="section level2">
 <h2 id="disclaimer">Disclaimer<a class="anchor" aria-label="anchor" href="#disclaimer"></a>
 </h2>
-<p>IMPORTANT: The text is neither an authorative nor comprehensive
-reference for the <code>.c2d</code> file format. The descriptions are
-based on the authors’ understanding, some of which was verified with
-RBM, but some of which is based on guesses and may be incomplete or
-inaccurate.</p>
+<p>This text is neither an authorative nor comprehensive reference for
+the <code>.c2d</code> file format. The descriptions are based on the
+authors’ understanding, some of which was verified with RBM, but some of
+which is based on guesses and may be incomplete or inaccurate.</p>
 </div>
 <div class="section level2">
 <h2 id="structure-overview">Structure overview<a class="anchor" aria-label="anchor" href="#structure-overview"></a>
 </h2>
-<p>Technically, <code>.c2d</code> files are gzipped XML text files with
-custom content. Let’s walk through an “idealized” <code>.c2d</code>
-file, showing the structure of the XML content. The rough XML structure
-inside a <code>.c2d</code> file is as follows: Inside the
-<code>C2D</code> node, there are 3 main nodes, <code>System</code>,
-<code>Program</code>, and <code>Training</code>:</p>
+<p>Technically, <code>.c2d</code> files are gzip-compressed XML text
+files with Cyclus2-specific content. Let’s take a tour through an
+“idealized” <code>.c2d</code> file to get an overview of the structure
+and content of the data. The rough XML structure inside a
+<code>.c2d</code> file is as follows: Inside the <code>C2D</code> node,
+there are 3 main nodes, <code>System</code>, <code>Program</code>, and
+<code>Training</code>:</p>
 <ul>
 <li>
 <code>System</code> contains information about the athlete, the bike
@@ -137,6 +137,141 @@ point.</li>
 <span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>    &lt;/<span class="kw">Training</span>&gt;</span>
 <span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a>  &lt;/<span class="kw">C2D</span>&gt;</span>
 <span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a>&lt;/<span class="kw">BODY_50</span>&gt;</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="system-content">System content<a class="anchor" aria-label="anchor" href="#system-content"></a>
+</h2>
+<p>The <code>System</code> node contains information about the athlete,
+the bike settings, and the environment.</p>
+<div class="section level3">
+<h3 id="athlete-content">Athlete content<a class="anchor" aria-label="anchor" href="#athlete-content"></a>
+</h3>
+<p>The <code>Athlete</code> node contains information about the athlete,
+see manual, section “6.1. Athlete data”. All are user-entered in the
+Cyclus2 menu item <em>System</em> &gt; <em>Athlete Settings</em>.</p>
+<p>Here an example for the <code>Athlete</code> node.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>&lt;<span class="kw">Athlete</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  &lt;<span class="kw">Firstname</span>&gt;somefirstname&lt;/<span class="kw">Firstname</span>&gt;</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  &lt;<span class="kw">Name</span>&gt;somename&lt;/<span class="kw">Name</span>&gt;</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  &lt;<span class="kw">Sex</span>&gt;1&lt;/<span class="kw">Sex</span>&gt;</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  &lt;<span class="kw">DoB</span>&gt;05/25/1974 12:00:00 AM&lt;/<span class="kw">DoB</span>&gt;</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  &lt;<span class="kw">Area</span>&gt;0.44&lt;/<span class="kw">Area</span>&gt;</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  &lt;<span class="kw">Weight</span>&gt;69.0&lt;/<span class="kw">Weight</span>&gt;</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  &lt;<span class="kw">Height</span>&gt;1.840&lt;/<span class="kw">Height</span>&gt;</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  &lt;<span class="kw">Cw</span>&gt;0.715&lt;/<span class="kw">Cw</span>&gt;</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>  &lt;<span class="kw">tp</span>&gt;+etrxH[...]&lt;/<span class="kw">tp</span>&gt;</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>&lt;/<span class="kw">Athlete</span>&gt;</span></code></pre></div>
+<p>Here the meanings of the fields:</p>
+<ul>
+<li>
+<code>Firstname</code>: String for the first name.</li>
+<li>
+<code>Name</code>: String for the family name.</li>
+<li>
+<code>Sex</code>: Numeric code for the sex; value <code>1</code> for
+“male”? FIXME: Check for other possible values.</li>
+<li>
+<code>DoB</code>: Date of birth, in the format “MM/DD/YYYY 12:00:00
+AM”.</li>
+<li>
+<code>Area</code>: Drag Area in square meters (m²), see manual.</li>
+<li>
+<code>Weight</code>: Weight in kilograms (kg).</li>
+<li>
+<code>Height</code>: Height in meters (m).</li>
+<li>
+<code>Cw</code>: Drag coefficient, see manual.</li>
+<li>
+<code>tp</code>: Obsolete; was used for encrypted credentials for
+online training platforms such as by company TrainingPeaks, LLC.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="cycledata-content">CycleData content<a class="anchor" aria-label="anchor" href="#cycledata-content"></a>
+</h3>
+<p>The <code>CycleData</code> node contains information about the bike
+settings. These bike parameters are user-entered in the Cyclus2 menu
+item <em>System</em> &gt; <em>Bike Settings</em>. (Note that their units
+may be different, e.g., Crank Length is entered in millimeters, but
+saved in meters inside the <code>crank</code> field). The bike
+parameters must accurately correspond to the actual, physical bike used
+for ergometry, because they enter the calculations for the values pedal
+force, cadence, speed, inclination and cycled distance.</p>
+<p>Here an example for <code>CycleData</code> node; all contain numeric
+values.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>&lt;<span class="kw">CycleData</span>&gt;</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  &lt;<span class="kw">crank</span>&gt;0.1725&lt;/<span class="kw">crank</span>&gt;</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  &lt;<span class="kw">perim</span>&gt;2.113&lt;/<span class="kw">perim</span>&gt;</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  &lt;<span class="kw">weight</span>&gt;8&lt;/<span class="kw">weight</span>&gt;</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  &lt;<span class="kw">front</span>&gt;52&lt;/<span class="kw">front</span>&gt;</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  &lt;<span class="kw">rear</span>&gt;11&lt;/<span class="kw">rear</span>&gt;</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  &lt;<span class="kw">vfront</span>&gt;53&lt;/<span class="kw">vfront</span>&gt;</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  &lt;<span class="kw">vrear</span>&gt;17&lt;/<span class="kw">vrear</span>&gt;</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>&lt;/<span class="kw">CycleData</span>&gt;</span></code></pre></div>
+<p>Here their meanings, though some still seem slightly unclear.</p>
+<ul>
+<li>
+<code>crank</code>: The crank length, in meters (m).</li>
+<li>
+<code>perim</code>: The wheel perimeter/circumference, in meters
+(m).</li>
+<li>
+<code>weight</code>: The bike weight, in kilograms (kg).</li>
+<li>
+<code>front</code>: The number of teeth on the physical/real front
+chain ring.</li>
+<li>
+<code>rear</code>: The number of teeth on the physical/real rear
+sprocket.</li>
+<li>
+<code>vfront</code>: FIXME: Unclear? Probably the number of teeth on
+the virtual front chainring, for virtual gear settings.</li>
+<li>
+<code>vrear</code>: FIXME: Unclear? Probably the number of teeth on
+the virtual rear sprocket, for virtual gear settings.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="field-content">Field content<a class="anchor" aria-label="anchor" href="#field-content"></a>
+</h3>
+<p>The <code>Field</code> node contains information about the
+environment, see manual, section “6.3. Environmental conditions”. These
+are user-entered in the Cyclus2 menu item <em>System</em> &gt;
+<em>External Conditions</em>.</p>
+<p>Here an example for the <code>Field</code> node; both contain numeric
+values.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>&lt;<span class="kw">Field</span>&gt;</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  &lt;<span class="kw">AirDens</span>&gt;1.202&lt;/<span class="kw">AirDens</span>&gt;</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  &lt;<span class="kw">FricIdx</span>&gt;1&lt;/<span class="kw">FricIdx</span>&gt;</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>&lt;/<span class="kw">Field</span>&gt;</span></code></pre></div>
+<p>Here their meanings:</p>
+<ul>
+<li>
+<code>AirDens</code>: Air density, in kilograms per cubic meter
+(kg/m³), see manual.</li>
+<li>
+<code>FricIdx</code>: Friction index, important for the track
+simulation, see manual.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="todo-virtderailleur-content">TODO: VirtDerailleur content<a class="anchor" aria-label="anchor" href="#todo-virtderailleur-content"></a>
+</h3>
+<p>TODO: Describe!</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="program-content-omitted">Program content (omitted)<a class="anchor" aria-label="anchor" href="#program-content-omitted"></a>
+</h2>
+<p>The content of the <code>Program</code> node is currently left
+undescribed. It contains internal information about the Cyclus2 program,
+but does not appear to be of primary interest for general data
+analysis.</p>
+</div>
+<div class="section level2">
+<h2 id="todo-training-content">TODO: Training content<a class="anchor" aria-label="anchor" href="#todo-training-content"></a>
+</h2>
+<p>TODO: Describe!</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

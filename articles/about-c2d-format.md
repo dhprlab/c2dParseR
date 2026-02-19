@@ -16,18 +16,18 @@ the Cyclus2 software is not of interest and thus omitted here.
 
 ## Disclaimer
 
-IMPORTANT: The text is neither an authorative nor comprehensive
-reference for the `.c2d` file format. The descriptions are based on the
-authors’ understanding, some of which was verified with RBM, but some of
-which is based on guesses and may be incomplete or inaccurate.
+This text is neither an authorative nor comprehensive reference for the
+`.c2d` file format. The descriptions are based on the authors’
+understanding, some of which was verified with RBM, but some of which is
+based on guesses and may be incomplete or inaccurate.
 
 ## Structure overview
 
-Technically, `.c2d` files are gzipped XML text files with custom
-content. Let’s walk through an “idealized” `.c2d` file, showing the
-structure of the XML content. The rough XML structure inside a `.c2d`
-file is as follows: Inside the `C2D` node, there are 3 main nodes,
-`System`, `Program`, and `Training`:
+Technically, `.c2d` files are gzip-compressed XML text files with
+Cyclus2-specific content. Let’s take a tour through an “idealized”
+`.c2d` file to get an overview of the structure and content of the data.
+The rough XML structure inside a `.c2d` file is as follows: Inside the
+`C2D` node, there are 3 main nodes, `System`, `Program`, and `Training`:
 
 - `System` contains information about the athlete, the bike settings,
   and the environment.
@@ -64,3 +64,117 @@ file is as follows: Inside the `C2D` node, there are 3 main nodes,
   </C2D>
 </BODY_50>
 ```
+
+## System content
+
+The `System` node contains information about the athlete, the bike
+settings, and the environment.
+
+### Athlete content
+
+The `Athlete` node contains information about the athlete, see manual,
+section “6.1. Athlete data”. All are user-entered in the Cyclus2 menu
+item *System* \> *Athlete Settings*.
+
+Here an example for the `Athlete` node.
+
+``` xml
+<Athlete>
+  <Firstname>somefirstname</Firstname>
+  <Name>somename</Name>
+  <Sex>1</Sex>
+  <DoB>05/25/1974 12:00:00 AM</DoB>
+  <Area>0.44</Area>
+  <Weight>69.0</Weight>
+  <Height>1.840</Height>
+  <Cw>0.715</Cw>
+  <tp>+etrxH[...]</tp>
+</Athlete>
+```
+
+Here the meanings of the fields:
+
+- `Firstname`: String for the first name.
+- `Name`: String for the family name.
+- `Sex`: Numeric code for the sex; value `1` for “male”? FIXME: Check
+  for other possible values.
+- `DoB`: Date of birth, in the format “MM/DD/YYYY 12:00:00 AM”.
+- `Area`: Drag Area in square meters (m²), see manual.
+- `Weight`: Weight in kilograms (kg).
+- `Height`: Height in meters (m).
+- `Cw`: Drag coefficient, see manual.
+- `tp`: Obsolete; was used for encrypted credentials for online training
+  platforms such as by company TrainingPeaks, LLC.
+
+### CycleData content
+
+The `CycleData` node contains information about the bike settings. These
+bike parameters are user-entered in the Cyclus2 menu item *System* \>
+*Bike Settings*. (Note that their units may be different, e.g., Crank
+Length is entered in millimeters, but saved in meters inside the `crank`
+field). The bike parameters must accurately correspond to the actual,
+physical bike used for ergometry, because they enter the calculations
+for the values pedal force, cadence, speed, inclination and cycled
+distance.
+
+Here an example for `CycleData` node; all contain numeric values.
+
+``` xml
+<CycleData>
+  <crank>0.1725</crank>
+  <perim>2.113</perim>
+  <weight>8</weight>
+  <front>52</front>
+  <rear>11</rear>
+  <vfront>53</vfront>
+  <vrear>17</vrear>
+</CycleData>
+```
+
+Here their meanings, though some still seem slightly unclear.
+
+- `crank`: The crank length, in meters (m).
+- `perim`: The wheel perimeter/circumference, in meters (m).
+- `weight`: The bike weight, in kilograms (kg).
+- `front`: The number of teeth on the physical/real front chain ring.
+- `rear`: The number of teeth on the physical/real rear sprocket.
+- `vfront`: FIXME: Unclear? Probably the number of teeth on the virtual
+  front chainring, for virtual gear settings.
+- `vrear`: FIXME: Unclear? Probably the number of teeth on the virtual
+  rear sprocket, for virtual gear settings.
+
+### Field content
+
+The `Field` node contains information about the environment, see manual,
+section “6.3. Environmental conditions”. These are user-entered in the
+Cyclus2 menu item *System* \> *External Conditions*.
+
+Here an example for the `Field` node; both contain numeric values.
+
+``` xml
+<Field>
+  <AirDens>1.202</AirDens>
+  <FricIdx>1</FricIdx>
+</Field>
+```
+
+Here their meanings:
+
+- `AirDens`: Air density, in kilograms per cubic meter (kg/m³), see
+  manual.
+- `FricIdx`: Friction index, important for the track simulation, see
+  manual.
+
+### TODO: VirtDerailleur content
+
+TODO: Describe!
+
+## Program content (omitted)
+
+The content of the `Program` node is currently left undescribed. It
+contains internal information about the Cyclus2 program, but does not
+appear to be of primary interest for general data analysis.
+
+## TODO: Training content
+
+TODO: Describe!
