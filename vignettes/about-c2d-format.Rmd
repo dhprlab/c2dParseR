@@ -170,7 +170,8 @@ It contains internal information about the Cyclus2 program, but does not appear 
 
 The `Training` node contains the data of the training session.
 
-Here an example:
+Here a reduced example from a Wingate test, but note that the recorded columns vary depending on the Cyclus2's program.
+See below for all possible headers and column data.
 
 ```xml
 <Training>
@@ -197,97 +198,108 @@ Here an example:
   - FIXME: What's the meaning of `Delay`?
 - Inside the `Rows` node are elements `R[0-9]*` that each contain the data for one time point, with values separated by semicolons.
 
-### Headers and Rows
+### Possible Headers for column values
 
-Here the `enum` from RBM's internal code with translated comments, in case that becomes relevant at some point.
+Below is a list of possible `Header` values and their corresponding meaning (though that's work in progress!).
+Any particular `.c2d` file only contains a subset of all possible variables.
+Note that the list's numbering matches the `enum` from RBM's internal code, in case that becomes relevant at some point.
 
-```c
-idCadence = 0,
-idHeartrate = 1,
-idSpeed = 2,
-idTransmission = 3,
-idPedalForce = 4,
-idPower = 5,
-idInclination = 6,
-idWorkPerBeat = 7,
-idLactate = 8,
-idNone = 9,
-idTorque = 10,
-idCdA = 11,
-idCurrent = 12,
+0. `idCadence`
+1. `idHeartrate`
+2. `idSpeed`
+3. `idTransmission`
+4. `idPedalForce`
+5. `idPower`
+6. `idInclination`
+7. `idWorkPerBeat`
+8. `idLactate`
+9. `idNone`
+10. `idTorque`
+11. `idCdA`
+12. `idCurrent`
+13. `idTime`
+14. `idDistance`
+15. `idRevolutions`
+16. `idWork`
 
-idTime = 13,
-idDistance = 14,
-idRevolutions = 15,
-idWork = 16,
+---
 
-// Relative IDs, added in July 2020
-idRelPower = 17,
-idRelTorque = 18,
-idRelPedalForce = 19,
+Relative IDs, added in July 2020
 
-// Acceleration IDs, added in May 2020
-idAngularAcceleration = 20,
-idAccTorque = 21,
-idAccPower = 22,
-idAccPedalForce = 23,
-idAccWork = 24,
-idAccWorkPerBeat = 25,
+17. `idRelPower`
+18. `idRelTorque`
+19. `idRelPedalForce`
 
-// Bluetooth IDs, added in May 2020
-idBtRRInterval = 26,
-idBtPower = 27,
-idBtCadence = 28,
-idDeltaPower = 29,
-idBtLactate = 30,
-idBtVO2 = 31,
-idBtRelVO2 = 32,
-idBtCO2 = 33, // place holder for future VO2Master
-idBtRER = 34, // place holder for future VO2Master
+---
 
-// Bluetooth IDs, added in Aug 2021
-idBtRf = 35, // Respiratory Frequency VO2Master
-idBtTv = 36, // Tidal Volume VO2Master
-idBtVe = 37, // Ventilation VO2Master
-//----------
+Acceleration IDs, added in May 2020
 
-idBtSmO2 = 38,
-idBtTHb = 39,
+20. `idAngularAcceleration`
+21. `idAccTorque`
+22. `idAccPower`
+23. `idAccPedalForce`
+24. `idAccWork`
+25. `idAccWorkPerBeat`
 
-// Bluetooth IDs added in Jan 2022
-idBtCoreBodyTemperature = 40,
-idBtSkinTemperature = 41,
-//----------
+---
 
-// SyncInterface ID, added in June 2024
-idDio = 42, // state of digital inputs and outputs from SyncInterface
-//----------
+Bluetooth IDs, added in May 2020
 
-// Diagnosis IDs, added in May 2020
-idMotorTemperature = 43,
-idFrameTemperature = 44,
-idBatteryCapacity = 45,
-idFlags = 46,
-idMemory = 47,
+26. `idBtRRInterval`
+27. `idBtPower`
+28. `idBtCadence`
+29. `idDeltaPower`
+30. `idBtLactate`
+31. `idBtVO2`
+32. `idBtRelVO2`
+33. `idBtCO2`: placeholder for future VO2Master
+34. `idBtRER`: placeholder for future VO2Master
 
-// new since Aug 2021, such that jumps in stages remain visible/traceable
-idStageIndex = 48,
-StageIndex = idStageIndex, // previous name
+---
 
-//// new since Aug 2020
-//// value changed from 31 to 63
-//// such that a 64bit flag can be derived from this
-//StageIndex = 63,
+Bluetooth IDs for VO2Master, added in Aug 2021
 
-//HrCorr,
-///// <summary>
-///// Lactate following workload
-///// </summary>
-//idPostLactate,
-///// <summary>
-///// heart rate in regeneration intervals
-///// </summary>
-//idRegenerationHeartRate,
+35. `idBtRf`: respiratory frequency 
+36. `idBtTv`: tidal volume
+37. `idBtVe`: ventilation
 
-UNKNOWN_VALUE = 255
-```
+---
+
+38. `idBtSmO2`
+39. `idBtTHb`
+
+---
+
+Bluetooth IDs, added in Jan 2022
+
+40. `idBtCoreBodyTemperature`
+41. `idBtSkinTemperature`
+
+---
+
+42. `idDio`: state of digital inputs and outputs from SyncInterface, added in June 2024
+
+---
+
+Diagnosis IDs, added in May 2020
+
+43. `idMotorTemperature`
+44. `idFrameTemperature`
+45. `idBatteryCapacity`
+46. `idFlags`
+47. `idMemory`
+
+---
+
+48. `idStageIndex`: new since Aug 2021, such that jumps in stages remain visible/traceable
+63. `StageIndex`: previous name for `idStageIndex`, since Aug 2020 value changed from 31 to 63 such that a 64-bit flag can be derived from it
+
+---
+
+255. `UNKNOWN_VALUE`
+
+The following two values are commented out and thus have no `enum` numbers assigned:
+
+- `idPostLactate`: Lactate following workload
+- `idRegenerationHeartRate`: Heart rate in regeneration intervals
+
