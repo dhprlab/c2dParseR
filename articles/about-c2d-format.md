@@ -2,10 +2,6 @@
 
 WARNING: 🚧 *This is work in progress, please read with care.* 🚧
 
-``` r
-library(c2dParseR)
-```
-
 The goal of this text is to provide a brief overview of the `.c2d` file
 format from [Cyclus2 ergometers by RBM elektronik-automation
 GmbH](https://www.cyclus2.com/en/). The text gives an overview what kind
@@ -24,10 +20,10 @@ based on guesses and may be incomplete or inaccurate.
 ## Structure overview
 
 Technically, `.c2d` files are gzip-compressed XML text files with
-Cyclus2-specific content. Let’s take a tour through an “idealized”
-`.c2d` file to get an overview of the structure and content of the data.
-The rough XML structure inside a `.c2d` file is as follows: Inside the
-`C2D` node, there are 3 main nodes, `System`, `Program`, and `Training`:
+Cyclus2-specific content. Let’s take a tour through an simplified `.c2d`
+file to get an overview of its structure and content. The rough XML
+structure inside a `.c2d` file consists of 3 main nodes called `System`,
+`Program`, and `Training`:
 
 - `System` contains information about the athlete, the bike settings,
   and the environment.
@@ -72,11 +68,11 @@ settings, and the environment.
 
 ### Athlete content
 
-The `Athlete` node contains information about the athlete, see manual,
+The `Athlete` node contains information about the athlete, see manual
 section “6.1. Athlete data”. All are user-entered in the Cyclus2 menu
 item *System* \> *Athlete Settings*.
 
-Here an example for the `Athlete` node.
+Here an example of an `Athlete` element:
 
 ``` xml
 <Athlete>
@@ -88,11 +84,11 @@ Here an example for the `Athlete` node.
   <Weight>69.0</Weight>
   <Height>1.840</Height>
   <Cw>0.715</Cw>
-  <tp>+etrxH[...]</tp>
+  <tp>[...]</tp>
 </Athlete>
 ```
 
-Here the meanings of the fields:
+Here a description of the elements:
 
 - `Firstname`: String for the first name.
 - `Name`: String for the family name.
@@ -104,18 +100,18 @@ Here the meanings of the fields:
 - `Height`: Height in meters (m).
 - `Cw`: Drag coefficient, see manual.
 - `tp`: Obsolete; was used for encrypted credentials for online training
-  platforms such as by company TrainingPeaks, LLC.
+  platforms like TrainingPeaks.
 
 ### CycleData content
 
-The `CycleData` node contains information about the bike settings. These
-bike parameters are user-entered in the Cyclus2 menu item *System* \>
-*Bike Settings*. (Note that their units may be different, e.g., Crank
-Length is entered in millimeters, but saved in meters inside the `crank`
-field). The bike parameters must accurately correspond to the actual,
-physical bike used for ergometry, because they enter the calculations
-for the values pedal force, cadence, speed, inclination and cycled
-distance.
+The `CycleData` node contains information about the bike settings, see
+manual section “6.2. Bike settings”. These bike parameters are
+user-entered in the Cyclus2 menu item *System* \> *Bike Settings*. (Note
+that their units may be different, e.g., Crank Length is entered in
+millimeters, but saved in meters inside the `crank` element). The bike
+parameters must accurately correspond to the actual, physical bike used
+for ergometry, because they enter the calculations for the values pedal
+force, cadence, speed, inclination and cycled distance.
 
 Here an example for `CycleData` node; all contain numeric values.
 
@@ -131,7 +127,7 @@ Here an example for `CycleData` node; all contain numeric values.
 </CycleData>
 ```
 
-Here their meanings, though some still seem slightly unclear.
+Here the element desriptions, though some still seem slightly unclear.
 
 - `crank`: The crank length, in meters (m).
 - `perim`: The wheel perimeter/circumference, in meters (m).
@@ -145,11 +141,11 @@ Here their meanings, though some still seem slightly unclear.
 
 ### Field content
 
-The `Field` node contains information about the environment, see manual,
+The `Field` node contains information about the environment, see manual
 section “6.3. Environmental conditions”. These are user-entered in the
 Cyclus2 menu item *System* \> *External Conditions*.
 
-Here an example for the `Field` node; both contain numeric values.
+Here an example of a `Field` node:
 
 ``` xml
 <Field>
@@ -158,16 +154,27 @@ Here an example for the `Field` node; both contain numeric values.
 </Field>
 ```
 
-Here their meanings:
+Here the elements’ meanings:
 
 - `AirDens`: Air density, in kilograms per cubic meter (kg/m³), see
   manual.
 - `FricIdx`: Friction index, important for the track simulation, see
   manual.
 
-### TODO: VirtDerailleur content
+### FIXME: VirtDerailleur content
 
-TODO: Describe!
+Here an example:
+
+``` xml
+<VirtDerailleur>
+  <UserCas>11;12;13;14;15;16;17;19;21;23;25</UserCas>
+  <UserCr>39;53</UserCr>
+  <Cassette>1</Cassette>
+  <Chainrings>3</Chainrings>
+</VirtDerailleur>
+```
+
+FIXME: Describe them!
 
 ## Program content (omitted)
 
@@ -175,6 +182,149 @@ The content of the `Program` node is currently left undescribed. It
 contains internal information about the Cyclus2 program, but does not
 appear to be of primary interest for general data analysis.
 
-## TODO: Training content
+## Training content
 
-TODO: Describe!
+The `Training` node contains the data of the training session.
+
+Here a reduced example from a Wingate test, but note that the recorded
+columns vary depending on the Cyclus2’s program. See below for all
+possible headers and column data.
+
+``` xml
+<Training>
+  <Date>7/15/2025 1:23:42 PM</Date>
+  <Header>idStageIndex;idTime;idDistance;idRevolutions;idWork;idHeartrate;idCadence;idTorque;idRelTorque;idPower;idRelPower;idPedalForce;idRelPedalForce;idSpeed;idTransmission;idInclination;idWorkPerBeat;idCdA;idCurrent;idMotorTemperature;idFrameTemperature;idFlags;idMemory</Header>
+  <Run>
+    <RRInt>682;667;707;670;625;617;601;557;566;546;545;535;523;515;515;506;500;492;484;479;472;464;460;456;449;445;445;437;424;429;425;417;417;413;410;410;402;402;402;401;398;398;394;394;397;390;389;394;390;386;390;386;393;382;394;382;386;385;382;382;386;382;382;381</RRInt>
+    <Count>301</Count>
+    <Rows>
+      <R0>0;0;0.00;0;0.00;94;71;20.1;0.27;150;2.02;118.1;1.59;37;8.61;-1.04;96;0.3146;7.1;34;29;34;749240300</R0>
+      <R1>0;100;1.02;0;38.85;94;71;52.0;0.70;388;5.22;306.0;4.11;37;8.61;1.81;248;0.3146;16.7;34;29;32;749240300</R1>
+      [...]
+      <R300>0;30000;464.14;54;17610.36;156;102;52.0;0.70;556;7.48;306.0;4.11;53;8.61;-0.73;214;0.3146;24.2;34;29;32;749248500</R300>
+    </Rows>
+    <Delay>191</Delay>
+  </Run>
+</Training>
+```
+
+- The `Date` element contains the date and time of the training, in the
+  format “MM/DD/YYYY HH:MM:SS (AM)\|(PM)”.
+- Inside the `Run` node, `Header` contains the column names for the data
+  in the `Rows` node, separated by semicolons. The number inside `Count`
+  is the number of headers and the elements inside `Rows`.
+  - FIXME: What’s the meaning of `RRInt`?
+  - FIXME: What’s the meaning of `Delay`?
+- Inside the `Rows` node are elements `R[0-9]*` that each contain the
+  data for one time point, with values separated by semicolons.
+
+### Possible Headers for column values
+
+Below is a list of possible `Header` values and their corresponding
+meaning (though that’s work in progress!). Any particular `.c2d` file
+only contains a subset of all possible variables. Note that the list’s
+numbering matches the `enum` from RBM’s internal code, in case that
+becomes relevant at some point.
+
+0.  `idCadence`
+1.  `idHeartrate`
+2.  `idSpeed`
+3.  `idTransmission`
+4.  `idPedalForce`
+5.  `idPower`
+6.  `idInclination`
+7.  `idWorkPerBeat`
+8.  `idLactate`
+9.  `idNone`
+10. `idTorque`
+11. `idCdA`
+12. `idCurrent`
+13. `idTime`
+14. `idDistance`
+15. `idRevolutions`
+16. `idWork`
+
+------------------------------------------------------------------------
+
+Relative IDs, added in July 2020
+
+17. `idRelPower`
+18. `idRelTorque`
+19. `idRelPedalForce`
+
+------------------------------------------------------------------------
+
+Acceleration IDs, added in May 2020
+
+20. `idAngularAcceleration`
+21. `idAccTorque`
+22. `idAccPower`
+23. `idAccPedalForce`
+24. `idAccWork`
+25. `idAccWorkPerBeat`
+
+------------------------------------------------------------------------
+
+Bluetooth IDs, added in May 2020
+
+26. `idBtRRInterval`
+27. `idBtPower`
+28. `idBtCadence`
+29. `idDeltaPower`
+30. `idBtLactate`
+31. `idBtVO2`
+32. `idBtRelVO2`
+33. `idBtCO2`: placeholder for future VO2Master
+34. `idBtRER`: placeholder for future VO2Master
+
+------------------------------------------------------------------------
+
+Bluetooth IDs for VO2Master, added in Aug 2021
+
+35. `idBtRf`: respiratory frequency
+36. `idBtTv`: tidal volume
+37. `idBtVe`: ventilation
+
+------------------------------------------------------------------------
+
+38. `idBtSmO2`
+39. `idBtTHb`
+
+------------------------------------------------------------------------
+
+Bluetooth IDs, added in Jan 2022
+
+40. `idBtCoreBodyTemperature`
+41. `idBtSkinTemperature`
+
+------------------------------------------------------------------------
+
+42. `idDio`: state of digital inputs and outputs from SyncInterface,
+    added in June 2024
+
+------------------------------------------------------------------------
+
+Diagnosis IDs, added in May 2020
+
+43. `idMotorTemperature`
+44. `idFrameTemperature`
+45. `idBatteryCapacity`
+46. `idFlags`
+47. `idMemory`
+
+------------------------------------------------------------------------
+
+48. `idStageIndex`: new since Aug 2021, such that jumps in stages remain
+    visible/traceable
+49. `StageIndex`: previous name for `idStageIndex`, since Aug 2020 value
+    changed from 31 to 63 such that a 64-bit flag can be derived from it
+
+------------------------------------------------------------------------
+
+255. `UNKNOWN_VALUE`
+
+The following two values are commented out and thus have no `enum`
+numbers assigned:
+
+- `idPostLactate`: Lactate following workload
+- `idRegenerationHeartRate`: Heart rate in regeneration intervals

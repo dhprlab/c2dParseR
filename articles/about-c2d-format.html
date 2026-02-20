@@ -70,8 +70,6 @@
     
 <p>WARNING: 🚧 <em>This is work in progress, please read with care.</em>
 🚧</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dhprlab/c2dParseR" class="external-link">c2dParseR</a></span><span class="op">)</span></span></code></pre></div>
 <p>The goal of this text is to provide a brief overview of the
 <code>.c2d</code> file format from <a href="https://www.cyclus2.com/en/" class="external-link">Cyclus2 ergometers by RBM
 elektronik-automation GmbH</a>. The text gives an overview what kind of
@@ -93,11 +91,10 @@ which is based on guesses and may be incomplete or inaccurate.</p>
 </h2>
 <p>Technically, <code>.c2d</code> files are gzip-compressed XML text
 files with Cyclus2-specific content. Let’s take a tour through an
-“idealized” <code>.c2d</code> file to get an overview of the structure
-and content of the data. The rough XML structure inside a
-<code>.c2d</code> file is as follows: Inside the <code>C2D</code> node,
-there are 3 main nodes, <code>System</code>, <code>Program</code>, and
-<code>Training</code>:</p>
+simplified <code>.c2d</code> file to get an overview of its structure
+and content. The rough XML structure inside a <code>.c2d</code> file
+consists of 3 main nodes called <code>System</code>,
+<code>Program</code>, and <code>Training</code>:</p>
 <ul>
 <li>
 <code>System</code> contains information about the athlete, the bike
@@ -110,33 +107,33 @@ program.</li>
 including the date, the header, and the row data for each time
 point.</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0"</span><span class="ot"> encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>&lt;<span class="kw">BODY_50</span>&gt;</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  &lt;<span class="kw">C2D</span>&gt;</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>    &lt;<span class="kw">System</span>&gt;</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>      &lt;<span class="kw">Athlete</span>&gt;[...]&lt;/<span class="kw">Athlete</span>&gt;</span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>      &lt;<span class="kw">CycleData</span>&gt;[...]&lt;/<span class="kw">CycleData</span>&gt;</span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>      &lt;<span class="kw">Field</span>&gt;[...]&lt;/<span class="kw">Field</span>&gt;</span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>      &lt;<span class="kw">VirtDerailleur</span>&gt;[...]&lt;/<span class="kw">VirtDerailleur</span>&gt;</span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>      &lt;<span class="kw">SysName</span>&gt;somename, somefirstname&lt;/<span class="kw">SysName</span>&gt;</span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>    &lt;/<span class="kw">System</span>&gt;</span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>    &lt;<span class="kw">Program</span>&gt;</span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>      [...]</span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>    &lt;/<span class="kw">Program</span>&gt;</span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>    &lt;<span class="kw">Training</span>&gt;</span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>      &lt;<span class="kw">Date</span>&gt;somedate,sometime&lt;/<span class="kw">Date</span>&gt;</span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>      &lt;<span class="kw">Header</span>&gt;someheaders&lt;/<span class="kw">Header</span>&gt;</span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>      &lt;<span class="kw">Run</span>&gt;</span>
-<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>        &lt;<span class="kw">RRInt</span>&gt;somerrint&lt;/<span class="kw">RRInt</span>&gt;</span>
-<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>        &lt;<span class="kw">Count</span>&gt;somecount&lt;/<span class="kw">Count</span>&gt;</span>
-<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>        &lt;<span class="kw">Rows</span>&gt;</span>
-<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>          [...]</span>
-<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>        &lt;/<span class="kw">Rows</span>&gt;</span>
-<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a>        &lt;<span class="kw">Delay</span>&gt;somedelay&lt;/<span class="kw">Delay</span>&gt;</span>
-<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a>      &lt;/<span class="kw">Run</span>&gt;</span>
-<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>    &lt;/<span class="kw">Training</span>&gt;</span>
-<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a>  &lt;/<span class="kw">C2D</span>&gt;</span>
-<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a>&lt;/<span class="kw">BODY_50</span>&gt;</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0"</span><span class="ot"> encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>&lt;<span class="kw">BODY_50</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  &lt;<span class="kw">C2D</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>    &lt;<span class="kw">System</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>      &lt;<span class="kw">Athlete</span>&gt;[...]&lt;/<span class="kw">Athlete</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>      &lt;<span class="kw">CycleData</span>&gt;[...]&lt;/<span class="kw">CycleData</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>      &lt;<span class="kw">Field</span>&gt;[...]&lt;/<span class="kw">Field</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>      &lt;<span class="kw">VirtDerailleur</span>&gt;[...]&lt;/<span class="kw">VirtDerailleur</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>      &lt;<span class="kw">SysName</span>&gt;somename, somefirstname&lt;/<span class="kw">SysName</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>    &lt;/<span class="kw">System</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>    &lt;<span class="kw">Program</span>&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>      [...]</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>    &lt;/<span class="kw">Program</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>    &lt;<span class="kw">Training</span>&gt;</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>      &lt;<span class="kw">Date</span>&gt;somedate,sometime&lt;/<span class="kw">Date</span>&gt;</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>      &lt;<span class="kw">Header</span>&gt;someheaders&lt;/<span class="kw">Header</span>&gt;</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>      &lt;<span class="kw">Run</span>&gt;</span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>        &lt;<span class="kw">RRInt</span>&gt;somerrint&lt;/<span class="kw">RRInt</span>&gt;</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>        &lt;<span class="kw">Count</span>&gt;somecount&lt;/<span class="kw">Count</span>&gt;</span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>        &lt;<span class="kw">Rows</span>&gt;</span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>          [...]</span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>        &lt;/<span class="kw">Rows</span>&gt;</span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>        &lt;<span class="kw">Delay</span>&gt;somedelay&lt;/<span class="kw">Delay</span>&gt;</span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>      &lt;/<span class="kw">Run</span>&gt;</span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>    &lt;/<span class="kw">Training</span>&gt;</span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>  &lt;/<span class="kw">C2D</span>&gt;</span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>&lt;/<span class="kw">BODY_50</span>&gt;</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="system-content">System content<a class="anchor" aria-label="anchor" href="#system-content"></a>
@@ -147,21 +144,21 @@ the bike settings, and the environment.</p>
 <h3 id="athlete-content">Athlete content<a class="anchor" aria-label="anchor" href="#athlete-content"></a>
 </h3>
 <p>The <code>Athlete</code> node contains information about the athlete,
-see manual, section “6.1. Athlete data”. All are user-entered in the
+see manual section “6.1. Athlete data”. All are user-entered in the
 Cyclus2 menu item <em>System</em> &gt; <em>Athlete Settings</em>.</p>
-<p>Here an example for the <code>Athlete</code> node.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>&lt;<span class="kw">Athlete</span>&gt;</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  &lt;<span class="kw">Firstname</span>&gt;somefirstname&lt;/<span class="kw">Firstname</span>&gt;</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  &lt;<span class="kw">Name</span>&gt;somename&lt;/<span class="kw">Name</span>&gt;</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  &lt;<span class="kw">Sex</span>&gt;1&lt;/<span class="kw">Sex</span>&gt;</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  &lt;<span class="kw">DoB</span>&gt;05/25/1974 12:00:00 AM&lt;/<span class="kw">DoB</span>&gt;</span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  &lt;<span class="kw">Area</span>&gt;0.44&lt;/<span class="kw">Area</span>&gt;</span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  &lt;<span class="kw">Weight</span>&gt;69.0&lt;/<span class="kw">Weight</span>&gt;</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  &lt;<span class="kw">Height</span>&gt;1.840&lt;/<span class="kw">Height</span>&gt;</span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  &lt;<span class="kw">Cw</span>&gt;0.715&lt;/<span class="kw">Cw</span>&gt;</span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>  &lt;<span class="kw">tp</span>&gt;+etrxH[...]&lt;/<span class="kw">tp</span>&gt;</span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>&lt;/<span class="kw">Athlete</span>&gt;</span></code></pre></div>
-<p>Here the meanings of the fields:</p>
+<p>Here an example of an <code>Athlete</code> element:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>&lt;<span class="kw">Athlete</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  &lt;<span class="kw">Firstname</span>&gt;somefirstname&lt;/<span class="kw">Firstname</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  &lt;<span class="kw">Name</span>&gt;somename&lt;/<span class="kw">Name</span>&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  &lt;<span class="kw">Sex</span>&gt;1&lt;/<span class="kw">Sex</span>&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  &lt;<span class="kw">DoB</span>&gt;05/25/1974 12:00:00 AM&lt;/<span class="kw">DoB</span>&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  &lt;<span class="kw">Area</span>&gt;0.44&lt;/<span class="kw">Area</span>&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  &lt;<span class="kw">Weight</span>&gt;69.0&lt;/<span class="kw">Weight</span>&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  &lt;<span class="kw">Height</span>&gt;1.840&lt;/<span class="kw">Height</span>&gt;</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>  &lt;<span class="kw">Cw</span>&gt;0.715&lt;/<span class="kw">Cw</span>&gt;</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>  &lt;<span class="kw">tp</span>&gt;[...]&lt;/<span class="kw">tp</span>&gt;</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>&lt;/<span class="kw">Athlete</span>&gt;</span></code></pre></div>
+<p>Here a description of the elements:</p>
 <ul>
 <li>
 <code>Firstname</code>: String for the first name.</li>
@@ -183,32 +180,34 @@ AM”.</li>
 <code>Cw</code>: Drag coefficient, see manual.</li>
 <li>
 <code>tp</code>: Obsolete; was used for encrypted credentials for
-online training platforms such as by company TrainingPeaks, LLC.</li>
+online training platforms like TrainingPeaks.</li>
 </ul>
 </div>
 <div class="section level3">
 <h3 id="cycledata-content">CycleData content<a class="anchor" aria-label="anchor" href="#cycledata-content"></a>
 </h3>
 <p>The <code>CycleData</code> node contains information about the bike
-settings. These bike parameters are user-entered in the Cyclus2 menu
-item <em>System</em> &gt; <em>Bike Settings</em>. (Note that their units
-may be different, e.g., Crank Length is entered in millimeters, but
-saved in meters inside the <code>crank</code> field). The bike
-parameters must accurately correspond to the actual, physical bike used
-for ergometry, because they enter the calculations for the values pedal
-force, cadence, speed, inclination and cycled distance.</p>
+settings, see manual section “6.2. Bike settings”. These bike parameters
+are user-entered in the Cyclus2 menu item <em>System</em> &gt; <em>Bike
+Settings</em>. (Note that their units may be different, e.g., Crank
+Length is entered in millimeters, but saved in meters inside the
+<code>crank</code> element). The bike parameters must accurately
+correspond to the actual, physical bike used for ergometry, because they
+enter the calculations for the values pedal force, cadence, speed,
+inclination and cycled distance.</p>
 <p>Here an example for <code>CycleData</code> node; all contain numeric
 values.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>&lt;<span class="kw">CycleData</span>&gt;</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  &lt;<span class="kw">crank</span>&gt;0.1725&lt;/<span class="kw">crank</span>&gt;</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  &lt;<span class="kw">perim</span>&gt;2.113&lt;/<span class="kw">perim</span>&gt;</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  &lt;<span class="kw">weight</span>&gt;8&lt;/<span class="kw">weight</span>&gt;</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  &lt;<span class="kw">front</span>&gt;52&lt;/<span class="kw">front</span>&gt;</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  &lt;<span class="kw">rear</span>&gt;11&lt;/<span class="kw">rear</span>&gt;</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  &lt;<span class="kw">vfront</span>&gt;53&lt;/<span class="kw">vfront</span>&gt;</span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  &lt;<span class="kw">vrear</span>&gt;17&lt;/<span class="kw">vrear</span>&gt;</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>&lt;/<span class="kw">CycleData</span>&gt;</span></code></pre></div>
-<p>Here their meanings, though some still seem slightly unclear.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>&lt;<span class="kw">CycleData</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  &lt;<span class="kw">crank</span>&gt;0.1725&lt;/<span class="kw">crank</span>&gt;</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  &lt;<span class="kw">perim</span>&gt;2.113&lt;/<span class="kw">perim</span>&gt;</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  &lt;<span class="kw">weight</span>&gt;8&lt;/<span class="kw">weight</span>&gt;</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  &lt;<span class="kw">front</span>&gt;52&lt;/<span class="kw">front</span>&gt;</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  &lt;<span class="kw">rear</span>&gt;11&lt;/<span class="kw">rear</span>&gt;</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  &lt;<span class="kw">vfront</span>&gt;53&lt;/<span class="kw">vfront</span>&gt;</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  &lt;<span class="kw">vrear</span>&gt;17&lt;/<span class="kw">vrear</span>&gt;</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>&lt;/<span class="kw">CycleData</span>&gt;</span></code></pre></div>
+<p>Here the element desriptions, though some still seem slightly
+unclear.</p>
 <ul>
 <li>
 <code>crank</code>: The crank length, in meters (m).</li>
@@ -235,16 +234,15 @@ the virtual rear sprocket, for virtual gear settings.</li>
 <h3 id="field-content">Field content<a class="anchor" aria-label="anchor" href="#field-content"></a>
 </h3>
 <p>The <code>Field</code> node contains information about the
-environment, see manual, section “6.3. Environmental conditions”. These
+environment, see manual section “6.3. Environmental conditions”. These
 are user-entered in the Cyclus2 menu item <em>System</em> &gt;
 <em>External Conditions</em>.</p>
-<p>Here an example for the <code>Field</code> node; both contain numeric
-values.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>&lt;<span class="kw">Field</span>&gt;</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  &lt;<span class="kw">AirDens</span>&gt;1.202&lt;/<span class="kw">AirDens</span>&gt;</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  &lt;<span class="kw">FricIdx</span>&gt;1&lt;/<span class="kw">FricIdx</span>&gt;</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>&lt;/<span class="kw">Field</span>&gt;</span></code></pre></div>
-<p>Here their meanings:</p>
+<p>Here an example of a <code>Field</code> node:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>&lt;<span class="kw">Field</span>&gt;</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  &lt;<span class="kw">AirDens</span>&gt;1.202&lt;/<span class="kw">AirDens</span>&gt;</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  &lt;<span class="kw">FricIdx</span>&gt;1&lt;/<span class="kw">FricIdx</span>&gt;</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>&lt;/<span class="kw">Field</span>&gt;</span></code></pre></div>
+<p>Here the elements’ meanings:</p>
 <ul>
 <li>
 <code>AirDens</code>: Air density, in kilograms per cubic meter
@@ -255,9 +253,16 @@ simulation, see manual.</li>
 </ul>
 </div>
 <div class="section level3">
-<h3 id="todo-virtderailleur-content">TODO: VirtDerailleur content<a class="anchor" aria-label="anchor" href="#todo-virtderailleur-content"></a>
+<h3 id="fixme-virtderailleur-content">FIXME: VirtDerailleur content<a class="anchor" aria-label="anchor" href="#fixme-virtderailleur-content"></a>
 </h3>
-<p>TODO: Describe!</p>
+<p>Here an example:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>&lt;<span class="kw">VirtDerailleur</span>&gt;</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  &lt;<span class="kw">UserCas</span>&gt;11;12;13;14;15;16;17;19;21;23;25&lt;/<span class="kw">UserCas</span>&gt;</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  &lt;<span class="kw">UserCr</span>&gt;39;53&lt;/<span class="kw">UserCr</span>&gt;</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  &lt;<span class="kw">Cassette</span>&gt;1&lt;/<span class="kw">Cassette</span>&gt;</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  &lt;<span class="kw">Chainrings</span>&gt;3&lt;/<span class="kw">Chainrings</span>&gt;</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>&lt;/<span class="kw">VirtDerailleur</span>&gt;</span></code></pre></div>
+<p>FIXME: Describe them!</p>
 </div>
 </div>
 <div class="section level2">
@@ -269,9 +274,163 @@ but does not appear to be of primary interest for general data
 analysis.</p>
 </div>
 <div class="section level2">
-<h2 id="todo-training-content">TODO: Training content<a class="anchor" aria-label="anchor" href="#todo-training-content"></a>
+<h2 id="training-content">Training content<a class="anchor" aria-label="anchor" href="#training-content"></a>
 </h2>
-<p>TODO: Describe!</p>
+<p>The <code>Training</code> node contains the data of the training
+session.</p>
+<p>Here a reduced example from a Wingate test, but note that the
+recorded columns vary depending on the Cyclus2’s program. See below for
+all possible headers and column data.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>&lt;<span class="kw">Training</span>&gt;</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  &lt;<span class="kw">Date</span>&gt;7/15/2025 1:23:42 PM&lt;/<span class="kw">Date</span>&gt;</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  &lt;<span class="kw">Header</span>&gt;idStageIndex;idTime;idDistance;idRevolutions;idWork;idHeartrate;idCadence;idTorque;idRelTorque;idPower;idRelPower;idPedalForce;idRelPedalForce;idSpeed;idTransmission;idInclination;idWorkPerBeat;idCdA;idCurrent;idMotorTemperature;idFrameTemperature;idFlags;idMemory&lt;/<span class="kw">Header</span>&gt;</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  &lt;<span class="kw">Run</span>&gt;</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    &lt;<span class="kw">RRInt</span>&gt;682;667;707;670;625;617;601;557;566;546;545;535;523;515;515;506;500;492;484;479;472;464;460;456;449;445;445;437;424;429;425;417;417;413;410;410;402;402;402;401;398;398;394;394;397;390;389;394;390;386;390;386;393;382;394;382;386;385;382;382;386;382;382;381&lt;/<span class="kw">RRInt</span>&gt;</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    &lt;<span class="kw">Count</span>&gt;301&lt;/<span class="kw">Count</span>&gt;</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>    &lt;<span class="kw">Rows</span>&gt;</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>      &lt;<span class="kw">R0</span>&gt;0;0;0.00;0;0.00;94;71;20.1;0.27;150;2.02;118.1;1.59;37;8.61;-1.04;96;0.3146;7.1;34;29;34;749240300&lt;/<span class="kw">R0</span>&gt;</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>      &lt;<span class="kw">R1</span>&gt;0;100;1.02;0;38.85;94;71;52.0;0.70;388;5.22;306.0;4.11;37;8.61;1.81;248;0.3146;16.7;34;29;32;749240300&lt;/<span class="kw">R1</span>&gt;</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>      [...]</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>      &lt;<span class="kw">R300</span>&gt;0;30000;464.14;54;17610.36;156;102;52.0;0.70;556;7.48;306.0;4.11;53;8.61;-0.73;214;0.3146;24.2;34;29;32;749248500&lt;/<span class="kw">R300</span>&gt;</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>    &lt;/<span class="kw">Rows</span>&gt;</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>    &lt;<span class="kw">Delay</span>&gt;191&lt;/<span class="kw">Delay</span>&gt;</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>  &lt;/<span class="kw">Run</span>&gt;</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>&lt;/<span class="kw">Training</span>&gt;</span></code></pre></div>
+<ul>
+<li>The <code>Date</code> element contains the date and time of the
+training, in the format “MM/DD/YYYY HH:MM:SS (AM)|(PM)”.</li>
+<li>Inside the <code>Run</code> node, <code>Header</code> contains the
+column names for the data in the <code>Rows</code> node, separated by
+semicolons. The number inside <code>Count</code> is the number of
+headers and the elements inside <code>Rows</code>.
+<ul>
+<li>FIXME: What’s the meaning of <code>RRInt</code>?</li>
+<li>FIXME: What’s the meaning of <code>Delay</code>?</li>
+</ul>
+</li>
+<li>Inside the <code>Rows</code> node are elements <code>R[0-9]*</code>
+that each contain the data for one time point, with values separated by
+semicolons.</li>
+</ul>
+<div class="section level3">
+<h3 id="possible-headers-for-column-values">Possible Headers for column values<a class="anchor" aria-label="anchor" href="#possible-headers-for-column-values"></a>
+</h3>
+<p>Below is a list of possible <code>Header</code> values and their
+corresponding meaning (though that’s work in progress!). Any particular
+<code>.c2d</code> file only contains a subset of all possible variables.
+Note that the list’s numbering matches the <code>enum</code> from RBM’s
+internal code, in case that becomes relevant at some point.</p>
+<ol start="0" style="list-style-type: decimal">
+<li><code>idCadence</code></li>
+<li><code>idHeartrate</code></li>
+<li><code>idSpeed</code></li>
+<li><code>idTransmission</code></li>
+<li><code>idPedalForce</code></li>
+<li><code>idPower</code></li>
+<li><code>idInclination</code></li>
+<li><code>idWorkPerBeat</code></li>
+<li><code>idLactate</code></li>
+<li><code>idNone</code></li>
+<li><code>idTorque</code></li>
+<li><code>idCdA</code></li>
+<li><code>idCurrent</code></li>
+<li><code>idTime</code></li>
+<li><code>idDistance</code></li>
+<li><code>idRevolutions</code></li>
+<li><code>idWork</code></li>
+</ol>
+<hr>
+<p>Relative IDs, added in July 2020</p>
+<ol start="17" style="list-style-type: decimal">
+<li><code>idRelPower</code></li>
+<li><code>idRelTorque</code></li>
+<li><code>idRelPedalForce</code></li>
+</ol>
+<hr>
+<p>Acceleration IDs, added in May 2020</p>
+<ol start="20" style="list-style-type: decimal">
+<li><code>idAngularAcceleration</code></li>
+<li><code>idAccTorque</code></li>
+<li><code>idAccPower</code></li>
+<li><code>idAccPedalForce</code></li>
+<li><code>idAccWork</code></li>
+<li><code>idAccWorkPerBeat</code></li>
+</ol>
+<hr>
+<p>Bluetooth IDs, added in May 2020</p>
+<ol start="26" style="list-style-type: decimal">
+<li><code>idBtRRInterval</code></li>
+<li><code>idBtPower</code></li>
+<li><code>idBtCadence</code></li>
+<li><code>idDeltaPower</code></li>
+<li><code>idBtLactate</code></li>
+<li><code>idBtVO2</code></li>
+<li><code>idBtRelVO2</code></li>
+<li>
+<code>idBtCO2</code>: placeholder for future VO2Master</li>
+<li>
+<code>idBtRER</code>: placeholder for future VO2Master</li>
+</ol>
+<hr>
+<p>Bluetooth IDs for VO2Master, added in Aug 2021</p>
+<ol start="35" style="list-style-type: decimal">
+<li>
+<code>idBtRf</code>: respiratory frequency</li>
+<li>
+<code>idBtTv</code>: tidal volume</li>
+<li>
+<code>idBtVe</code>: ventilation</li>
+</ol>
+<hr>
+<ol start="38" style="list-style-type: decimal">
+<li><code>idBtSmO2</code></li>
+<li><code>idBtTHb</code></li>
+</ol>
+<hr>
+<p>Bluetooth IDs, added in Jan 2022</p>
+<ol start="40" style="list-style-type: decimal">
+<li><code>idBtCoreBodyTemperature</code></li>
+<li><code>idBtSkinTemperature</code></li>
+</ol>
+<hr>
+<ol start="42" style="list-style-type: decimal">
+<li>
+<code>idDio</code>: state of digital inputs and outputs from
+SyncInterface, added in June 2024</li>
+</ol>
+<hr>
+<p>Diagnosis IDs, added in May 2020</p>
+<ol start="43" style="list-style-type: decimal">
+<li><code>idMotorTemperature</code></li>
+<li><code>idFrameTemperature</code></li>
+<li><code>idBatteryCapacity</code></li>
+<li><code>idFlags</code></li>
+<li><code>idMemory</code></li>
+</ol>
+<hr>
+<ol start="48" style="list-style-type: decimal">
+<li>
+<code>idStageIndex</code>: new since Aug 2021, such that jumps in
+stages remain visible/traceable</li>
+<li>
+<code>StageIndex</code>: previous name for
+<code>idStageIndex</code>, since Aug 2020 value changed from 31 to 63
+such that a 64-bit flag can be derived from it</li>
+</ol>
+<hr>
+<ol start="255" style="list-style-type: decimal">
+<li><code>UNKNOWN_VALUE</code></li>
+</ol>
+<p>The following two values are commented out and thus have no
+<code>enum</code> numbers assigned:</p>
+<ul>
+<li>
+<code>idPostLactate</code>: Lactate following workload</li>
+<li>
+<code>idRegenerationHeartRate</code>: Heart rate in regeneration
+intervals</li>
+</ul>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
