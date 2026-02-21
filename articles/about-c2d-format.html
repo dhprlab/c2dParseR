@@ -299,52 +299,75 @@ all possible headers and column data.</p>
 <ul>
 <li>The <code>Date</code> element contains the date and time of the
 training, in the format “MM/DD/YYYY HH:MM:SS (AM)|(PM)”.</li>
-<li>Inside the <code>Run</code> node, <code>Header</code> contains the
-column names for the data in the <code>Rows</code> node, separated by
-semicolons. The number inside <code>Count</code> is the number of
-headers and the elements inside <code>Rows</code>.
+<li>The <code>Header</code> element contains the column names for the
+data in <code>Rows</code>, separated by semicolons.</li>
+<li>Inside the <code>Run</code> node:
 <ul>
 <li>FIXME: What’s the meaning of <code>RRInt</code>?</li>
+<li>The number inside <code>Count</code> is the number of headers and
+elements inside <code>Rows</code>.</li>
+<li>Inside <code>Rows</code> are elements <code>R[0-9]*</code> that each
+contain the data for one time point, with values separated by
+semicolons.</li>
 <li>FIXME: What’s the meaning of <code>Delay</code>?</li>
 </ul>
 </li>
-<li>Inside the <code>Rows</code> node are elements <code>R[0-9]*</code>
-that each contain the data for one time point, with values separated by
-semicolons.</li>
 </ul>
 <div class="section level3">
-<h3 id="possible-headers-for-column-values">Possible Headers for column values<a class="anchor" aria-label="anchor" href="#possible-headers-for-column-values"></a>
+<h3 id="possible-headers-and-column-data">Possible headers and column data<a class="anchor" aria-label="anchor" href="#possible-headers-and-column-data"></a>
 </h3>
 <p>Below is a list of possible <code>Header</code> values and their
-corresponding meaning (though that’s work in progress!). Any particular
-<code>.c2d</code> file only contains a subset of all possible variables.
-Note that the list’s numbering matches the <code>enum</code> from RBM’s
-internal code, in case that becomes relevant at some point.</p>
+corresponding data in <code>Rows</code>, though that’s work in progress!
+Any particular <code>.c2d</code> file only contains a subset of all
+possible variables. Note that the list’s numbering matches the
+<code>enum</code> from RBM’s internal code, in case that becomes
+relevant at some point.</p>
 <ol start="0" style="list-style-type: decimal">
-<li><code>idCadence</code></li>
-<li><code>idHeartrate</code></li>
-<li><code>idSpeed</code></li>
-<li><code>idTransmission</code></li>
-<li><code>idPedalForce</code></li>
-<li><code>idPower</code></li>
-<li><code>idInclination</code></li>
-<li><code>idWorkPerBeat</code></li>
+<li>
+<code>idCadence</code>: Cadence in revolutions per minute
+(1/min)</li>
+<li>
+<code>idHeartrate</code>: Heart rate in beats per minute
+(1/min)</li>
+<li>
+<code>idSpeed</code>: Speed in kilometers per hour (km/h)</li>
+<li>
+<code>idTransmission</code>: Transmission, unitless</li>
+<li>
+<code>idPedalForce</code>: Pedal force in newtons (N)</li>
+<li>
+<code>idPower</code>: Power in watts (W)</li>
+<li>
+<code>idInclination</code>: Inclination in percent (%)</li>
+<li>
+<code>idWorkPerBeat</code>: Work per beat in joules (J)</li>
 <li><code>idLactate</code></li>
 <li><code>idNone</code></li>
-<li><code>idTorque</code></li>
-<li><code>idCdA</code></li>
-<li><code>idCurrent</code></li>
-<li><code>idTime</code></li>
-<li><code>idDistance</code></li>
-<li><code>idRevolutions</code></li>
-<li><code>idWork</code></li>
+<li>
+<code>idTorque</code>: Torque in newton meters (Nm)</li>
+<li>
+<code>idCdA</code>: CdA in square meters (m²)</li>
+<li>
+<code>idCurrent</code>: Current in amperes (A)</li>
+<li>
+<code>idTime</code>: Time in milliseconds (ms)</li>
+<li>
+<code>idDistance</code>: Distance in meters (m)</li>
+<li>
+<code>idRevolutions</code>: Number of revolutions, unitless</li>
+<li>
+<code>idWork</code>: Work in joules (J)</li>
 </ol>
 <hr>
 <p>Relative IDs, added in July 2020</p>
 <ol start="17" style="list-style-type: decimal">
-<li><code>idRelPower</code></li>
-<li><code>idRelTorque</code></li>
-<li><code>idRelPedalForce</code></li>
+<li>
+<code>idRelPower</code>: Relative power in percent (%)</li>
+<li>
+<code>idRelTorque</code>: Relative torque in percent (%)</li>
+<li>
+<code>idRelPedalForce</code>: Relative pedal force in percent
+(%)</li>
 </ol>
 <hr>
 <p>Acceleration IDs, added in May 2020</p>
@@ -401,17 +424,23 @@ SyncInterface, added in June 2024</li>
 <hr>
 <p>Diagnosis IDs, added in May 2020</p>
 <ol start="43" style="list-style-type: decimal">
-<li><code>idMotorTemperature</code></li>
-<li><code>idFrameTemperature</code></li>
+<li>
+<code>idMotorTemperature</code>: Motor temperature in degrees
+Celsius (°C)</li>
+<li>
+<code>idFrameTemperature</code>: Frame temperature in degrees
+Celsius (°C)</li>
 <li><code>idBatteryCapacity</code></li>
-<li><code>idFlags</code></li>
-<li><code>idMemory</code></li>
+<li>
+<code>idFlags</code>: Flags as bitmask</li>
+<li>
+<code>idMemory</code>: Memory use in bytes (B)</li>
 </ol>
 <hr>
 <ol start="48" style="list-style-type: decimal">
 <li>
-<code>idStageIndex</code>: new since Aug 2021, such that jumps in
-stages remain visible/traceable</li>
+<code>idStageIndex</code>: Stage Index; new since Aug 2021, such
+that jumps in stages remain visible/traceable</li>
 <li>
 <code>StageIndex</code>: previous name for
 <code>idStageIndex</code>, since Aug 2020 value changed from 31 to 63

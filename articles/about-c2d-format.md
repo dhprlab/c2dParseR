@@ -210,47 +210,49 @@ possible headers and column data.
 
 - The `Date` element contains the date and time of the training, in the
   format “MM/DD/YYYY HH:MM:SS (AM)\|(PM)”.
-- Inside the `Run` node, `Header` contains the column names for the data
-  in the `Rows` node, separated by semicolons. The number inside `Count`
-  is the number of headers and the elements inside `Rows`.
+- The `Header` element contains the column names for the data in `Rows`,
+  separated by semicolons.
+- Inside the `Run` node:
   - FIXME: What’s the meaning of `RRInt`?
+  - The number inside `Count` is the number of headers and elements
+    inside `Rows`.
+  - Inside `Rows` are elements `R[0-9]*` that each contain the data for
+    one time point, with values separated by semicolons.
   - FIXME: What’s the meaning of `Delay`?
-- Inside the `Rows` node are elements `R[0-9]*` that each contain the
-  data for one time point, with values separated by semicolons.
 
-### Possible Headers for column values
+### Possible headers and column data
 
-Below is a list of possible `Header` values and their corresponding
-meaning (though that’s work in progress!). Any particular `.c2d` file
+Below is a list of possible `Header` values and their corresponding data
+in `Rows`, though that’s work in progress! Any particular `.c2d` file
 only contains a subset of all possible variables. Note that the list’s
 numbering matches the `enum` from RBM’s internal code, in case that
 becomes relevant at some point.
 
-0.  `idCadence`
-1.  `idHeartrate`
-2.  `idSpeed`
-3.  `idTransmission`
-4.  `idPedalForce`
-5.  `idPower`
-6.  `idInclination`
-7.  `idWorkPerBeat`
+0.  `idCadence`: Cadence in revolutions per minute (1/min)
+1.  `idHeartrate`: Heart rate in beats per minute (1/min)
+2.  `idSpeed`: Speed in kilometers per hour (km/h)
+3.  `idTransmission`: Transmission, unitless
+4.  `idPedalForce`: Pedal force in newtons (N)
+5.  `idPower`: Power in watts (W)
+6.  `idInclination`: Inclination in percent (%)
+7.  `idWorkPerBeat`: Work per beat in joules (J)
 8.  `idLactate`
 9.  `idNone`
-10. `idTorque`
-11. `idCdA`
-12. `idCurrent`
-13. `idTime`
-14. `idDistance`
-15. `idRevolutions`
-16. `idWork`
+10. `idTorque`: Torque in newton meters (Nm)
+11. `idCdA`: CdA in square meters (m²)
+12. `idCurrent`: Current in amperes (A)
+13. `idTime`: Time in milliseconds (ms)
+14. `idDistance`: Distance in meters (m)
+15. `idRevolutions`: Number of revolutions, unitless
+16. `idWork`: Work in joules (J)
 
 ------------------------------------------------------------------------
 
 Relative IDs, added in July 2020
 
-17. `idRelPower`
-18. `idRelTorque`
-19. `idRelPedalForce`
+17. `idRelPower`: Relative power in percent (%)
+18. `idRelTorque`: Relative torque in percent (%)
+19. `idRelPedalForce`: Relative pedal force in percent (%)
 
 ------------------------------------------------------------------------
 
@@ -306,16 +308,16 @@ Bluetooth IDs, added in Jan 2022
 
 Diagnosis IDs, added in May 2020
 
-43. `idMotorTemperature`
-44. `idFrameTemperature`
+43. `idMotorTemperature`: Motor temperature in degrees Celsius (°C)
+44. `idFrameTemperature`: Frame temperature in degrees Celsius (°C)
 45. `idBatteryCapacity`
-46. `idFlags`
-47. `idMemory`
+46. `idFlags`: Flags as bitmask
+47. `idMemory`: Memory use in bytes (B)
 
 ------------------------------------------------------------------------
 
-48. `idStageIndex`: new since Aug 2021, such that jumps in stages remain
-    visible/traceable
+48. `idStageIndex`: Stage Index; new since Aug 2021, such that jumps in
+    stages remain visible/traceable
 49. `StageIndex`: previous name for `idStageIndex`, since Aug 2020 value
     changed from 31 to 63 such that a 64-bit flag can be derived from it
 
