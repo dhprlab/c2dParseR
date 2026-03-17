@@ -11,9 +11,9 @@
 #'
 #' @return
 #' A tibble with:
-#' * athlete metadata columns
-#' * cycle metadata columns
-#' * row‑level measurement data
+#' - athlete metadata columns
+#' - cycle metadata columns
+#' - row‑level measurement data
 #'
 #' Columns are ordered as:
 #' 1. athlete fields
@@ -22,20 +22,20 @@
 #'
 #' @section File Structure:
 #' A `.c2d` file typically contains the following XML sections:
-#' * `<Athlete>`: athlete metadata
-#' * `<CycleData>`: ergometer configuration
-#' * `<Header>`: column names for row data
-#' * `<Rows>` with child `<R*>` nodes: measurement rows
+#' - `<Athlete>`: athlete metadata
+#' - `<CycleData>`: ergometer configuration
+#' - `<Header>`: column names for row data
+#' - `<Rows>` with child `<R*>` nodes: measurement rows
 #'
 #' @section Error Handling:
 #' The function stops with an informative error message if:
-#' * the file does not exist
-#' * the XML cannot be parsed
-#' * required nodes (`<Athlete>`, `<CycleData>`, `<Header>`, `<Rows>`) are missing
+#' - the file does not exist
+#' - the XML cannot be parsed
+#' - required nodes (`<Athlete>`, `<CycleData>`, `<Header>`, `<Rows>`) are missing
 #'
 #' @seealso
-#' * \code{xml2::read_xml()}
-#' * \code{tibble::as_tibble()}
+#' - \code{xml2::read_xml()}
+#' - \code{tibble::as_tibble()}
 #'
 #' @examples
 #' \dontrun{
