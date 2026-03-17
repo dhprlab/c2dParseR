@@ -61,7 +61,6 @@ jobs:
           echo "Inspecting log for EUPL license warning..."
           if grep -q "Non-standard license specification" check/*.Rcheck/00check.log; then
             echo "Ignoring harmless EUPL license warning on oldrel-1"
-            echo "::set-output name=result::success"
             exit 0
           else
             echo "This was a real failure on oldrel-1"
