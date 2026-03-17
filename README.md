@@ -16,6 +16,7 @@ ergometers.
 <!-- badges: start -->
 
 ![badge-experimental](man/figures/lifecycle-experimental.svg)
+[![R-CMD-check](https://github.com/dhprlab/c2dParseR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dhprlab/c2dParseR/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of c2dParseR is to provide tools for working with `.c2d` files
