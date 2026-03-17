@@ -111,8 +111,8 @@ documentation](https://tidyr.tidyverse.org/articles/tidy-data.html),
 
 This project is licensed under the European Union Public License
 (EUPL-1.2). See full license text in English at
-[LICENSE.txt](https://dhprlab.github.io/c2dParseR/LICENSE.txt); for
-other languages, see
+[LICENSE](https://dhprlab.github.io/c2dParseR/LICENSE); for other
+languages, see
 <https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12>.
 
 Note: Dual-licensing for code and example data was considered, but
