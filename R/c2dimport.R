@@ -73,7 +73,7 @@ c2dimport <- function(path = "path/to/your/example.c2d") {
     row_tbl[[field]] <- cycle_data[[field]]
   }
   # reorder columns; 1) athlete data, 2) cycle data, 3) row data
-  full_tbl <- row_tbl %>%
+  full_tbl <- row_tbl |>
     dplyr::select(
       dplyr::all_of(athlete_fields),
       dplyr::all_of(cycle_fields),
