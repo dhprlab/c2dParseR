@@ -113,7 +113,7 @@ Specifically, to quote from the [tidy data documentation](https://tidyr.tidyvers
 ## Licensing
 
 This project is licensed under the European Union Public License (EUPL-1.2).
-See full license text in English at [LICENSE.txt](LICENSE.txt); for other languages, see <https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12>.
+See full license text in English at [LICENSE](LICENSE); for other languages, see <https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12>.
 
 Note: Dual-licensing for code and example data was considered, but deemed impractical due to CRAN's restriction to use a single license.
 We will thus not add data beyond examples for purely technical purposes, avoiding any personal data; see also section [example data](#example-data).

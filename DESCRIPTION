@@ -8,7 +8,7 @@ Authors@R:
            comment = c(ORCID = "0000-0001-8343-4362"),
            role = c("aut", "cre"))
 Description: Import and work with raw .c2d output files from Cyclus2 ergometers.
-License: EUPL-1.2
+License: EUPL-1.2 | file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3

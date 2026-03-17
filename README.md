@@ -123,8 +123,8 @@ documentation](https://tidyr.tidyverse.org/articles/tidy-data.html),
 ## Licensing
 
 This project is licensed under the European Union Public License
-(EUPL-1.2). See full license text in English at
-[LICENSE.txt](LICENSE.txt); for other languages, see
+(EUPL-1.2). See full license text in English at [LICENSE](LICENSE); for
+other languages, see
 <https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12>.
 
 Note: Dual-licensing for code and example data was considered, but
