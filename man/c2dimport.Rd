@@ -2,24 +2,68 @@
 % Please edit documentation in R/c2dimport.R
 \name{c2dimport}
 \alias{c2dimport}
-\title{Import data from a Cyclus2 .c2d file.}
+\title{Import Data from a Cyclus2 \code{.c2d} File}
 \usage{
-c2dimport(path = "path/to/your/example.c2d")
+c2dimport(path)
 }
 \arguments{
-\item{path}{Path to a C2D file (i.e., a gzipped XML file).}
+\item{path}{A file path to a \code{.c2d} file. Must be a single string.}
 }
 \value{
-A tibble containing the Athlete, Cycle, and Row data.
+A tibble with:
+\itemize{
+\item athlete metadata columns
+\item cycle metadata columns
+\item row‑level measurement data
+}
+
+Columns are ordered as:
+\enumerate{
+\item athlete fields
+\item cycle fields
+\item measurement variables
+}
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
-Load the Athlete data, CycleData, and the Row data from a .c2d file
-into a single tidyverse tibble.
-This function is currently experimental, but hopefully already useful.
+Reads a Cyclus2 ergometer \code{.c2d} file (a gzipped XML document) and returns
+its contents as a tidy tibble. The output merges athlete metadata, cycle
+configuration data, and row‑level measurement records into a single table.
 }
-\examples{
-# data <- c2dimport("path/to/your/example.c2d")
+\details{
+The function is currently marked as experimental and may change in future
+versions of the package.
+}
+\section{File Structure}{
 
+A \code{.c2d} file typically contains the following XML sections:
+\itemize{
+\item \verb{<Athlete>}: athlete metadata
+\item \verb{<CycleData>}: ergometer configuration
+\item \verb{<Header>}: column names for row data
+\item \verb{<Rows>} with child \verb{<R*>} nodes: measurement rows
+}
+}
+
+\section{Error Handling}{
+
+The function stops with an informative error message if:
+\itemize{
+\item the file does not exist
+\item the XML cannot be parsed
+\item required nodes (\verb{<Athlete>}, \verb{<CycleData>}, \verb{<Header>}, \verb{<Rows>}) are missing
+}
+}
+
+\examples{
+\dontrun{
+  data <- c2dimport("example.c2d")
+  print(data)
+}
+
+}
+\seealso{
+\itemize{
+\item \code{xml2::read_xml()}
+\item \code{tibble::as_tibble()}
+}
 }

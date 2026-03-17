@@ -15,10 +15,9 @@ RoxygenNote: 7.3.3
 Depends:
     R (>= 4.1.0)
 Imports:
-    dplyr,
     lifecycle,
-    purrr,
-    xml2
+    xml2,
+    tibble
 URL: https://github.com/dhprlab/c2dParseR, https://dhprlab.github.io/c2dParseR/
 BugReports: https://github.com/dhprlab/c2dParseR/issues
 Suggests: 

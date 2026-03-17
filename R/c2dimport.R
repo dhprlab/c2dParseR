@@ -1,83 +1,147 @@
-#' Import data from a Cyclus2 .c2d file.
+#' Import Data from a Cyclus2 `.c2d` File
 #'
-#' @description
-#' `r lifecycle::badge("experimental")`
+#' Reads a Cyclus2 ergometer `.c2d` file (a gzipped XML document) and returns
+#' its contents as a tidy tibble. The output merges athlete metadata, cycle
+#' configuration data, and row‑level measurement records into a single table.
 #'
-#' Load the Athlete data, CycleData, and the Row data from a .c2d file
-#' into a single tidyverse tibble.
-#' This function is currently experimental, but hopefully already useful.
+#' The function is currently marked as experimental and may change in future
+#' versions of the package.
 #'
-#' @param path Path to a C2D file (i.e., a gzipped XML file).
+#' @param path A file path to a `.c2d` file. Must be a single string.
 #'
-#' @returns A tibble containing the Athlete, Cycle, and Row data.
-#' @export
+#' @return
+#' A tibble with:
+#' * athlete metadata columns
+#' * cycle metadata columns
+#' * row‑level measurement data
+#'
+#' Columns are ordered as:
+#' 1. athlete fields
+#' 2. cycle fields
+#' 3. measurement variables
+#'
+#' @section File Structure:
+#' A `.c2d` file typically contains the following XML sections:
+#' * `<Athlete>`: athlete metadata
+#' * `<CycleData>`: ergometer configuration
+#' * `<Header>`: column names for row data
+#' * `<Rows>` with child `<R*>` nodes: measurement rows
+#'
+#' @section Error Handling:
+#' The function stops with an informative error message if:
+#' * the file does not exist
+#' * the XML cannot be parsed
+#' * required nodes (`<Athlete>`, `<CycleData>`, `<Header>`, `<Rows>`) are missing
+#'
+#' @seealso
+#' * \code{xml2::read_xml()}
+#' * \code{tibble::as_tibble()}
 #'
 #' @examples
-#' # data <- c2dimport("path/to/your/example.c2d")
+#' \dontrun{
+#'   data <- c2dimport("example.c2d")
+#'   print(data)
+#' }
 #'
-c2dimport <- function(path = "path/to/your/example.c2d") {
+#' @export
+c2dimport <- function(path) {
   lifecycle::signal_stage("experimental", "c2dimport()")
-  # read in a .c2d file (i.e., a gzipped XML file)
-  xml_content <- xml2::read_xml(gzcon(file(path, "rb")))
-  # find Athlete node and extract all fields (except 'tp') into a list
-  athlete_node <- xml2::xml_find_first(xml_content, ".//Athlete")
-  athlete_fields <- c("Firstname", "Name", "Sex", "DoB", "Area",
-                      "Weight", "Height", "Cw")
-  athlete_node <- xml2::xml_find_first(xml_content, ".//Athlete")
-  athlete_data <- purrr::map(athlete_fields, function(field) {
-    field_xpath <- paste0("./", field)
-    value <- xml2::xml_text(xml2::xml_find_first(athlete_node, field_xpath))
-    # convert fields to appropriate types
-    if (field == "Sex") {
-      as.integer(value)  # FIXME: translate possible values to their meaning
-    } else if (field %in% c("Area", "Weight", "Height", "Cw")) {
-      as.numeric(value)
-    } else {
-      value
-    }
-  })
-  names(athlete_data) <- athlete_fields
-  # find CycleData node and extract all fields into a list
-  cycle_node <- xml2::xml_find_first(xml_content, ".//CycleData")
+
+  # Validate input
+  if (!is.character(path) || length(path) != 1) {
+    stop("`path` must be a single file path.", call. = FALSE)
+  }
+  if (!file.exists(path)) {
+    stop("File does not exist: ", path, call. = FALSE)
+  }
+
+  # Read gzipped XML
+  con <- gzcon(file(path, "rb"))
+  xml <- tryCatch(
+    xml2::read_xml(con),
+    error = function(e) stop("Failed to read .c2d file: ", e$message, call. = FALSE)
+  )
+  close(con)
+
+  # Extract the text content of a named child node
+  xml_text_field <- function(node, field) {
+    child <- xml2::xml_find_first(node, paste0("./", field))
+    xml2::xml_text(child)
+  }
+
+  # Athlete metadata
+  athlete_fields <- c("Firstname", "Name", "Sex", "DoB",
+                      "Area", "Weight", "Height", "Cw")
+
+  athlete_node <- xml2::xml_find_first(xml, ".//Athlete")
+  if (is.na(xml2::xml_name(athlete_node))) {
+    stop("Missing <Athlete> node in .c2d file.", call. = FALSE)
+  }
+
+  athlete_values <- lapply(
+    athlete_fields,
+    function(f) xml_text_field(athlete_node, f)
+  )
+  names(athlete_values) <- athlete_fields
+
+  # Convert selected athlete fields to numeric
+  for (nm in c("Area", "Weight", "Height", "Cw")) {
+    athlete_values[[nm]] <- as.numeric(athlete_values[[nm]])
+  }
+  athlete_values[["Sex"]] <- as.integer(athlete_values[["Sex"]])
+
+  # Cycle metadata
   cycle_fields <- c("crank", "perim", "weight", "front",
                     "rear", "vfront", "vrear")
-  cycle_data <- purrr::map(cycle_fields, function(field) {
-    field_xpath <- paste0("./", field)
-    value <- xml2::xml_text(xml2::xml_find_first(cycle_node, field_xpath))
-    as.numeric(value)
-  })
-  names(cycle_data) <- cycle_fields
-  # extract the <Header> node, containing the column names for <Rows> data
-  header_node <- xml2::xml_find_first(xml_content, ".//Header")
-  # extract column names from the <Header> node
-  column_names <- unlist(strsplit(xml2::xml_text(header_node), ";"))
-  # extract the <Rows> node
-  rows_node <- xml2::xml_find_first(xml_content, ".//Rows")
-  # extract all <R*> nodes within <Rows>
-  r_nodes <- xml2::xml_children(rows_node)
-  # convert each <R*> node to a data frame row
-  data_list <- lapply(r_nodes, function(node) {
-    as.numeric(unlist(strsplit(xml2::xml_text(node), ";")))
-  })
-  # combine all rows into a tidyverse tibble
-  row_tbl <- dplyr::as_tibble(do.call(rbind, data_list),
-    .name_repair = "minimal"
+
+  cycle_node <- xml2::xml_find_first(xml, ".//CycleData")
+  if (is.na(xml2::xml_name(cycle_node))) {
+    stop("Missing <CycleData> node in .c2d file.", call. = FALSE)
+  }
+
+  cycle_values <- lapply(
+    cycle_fields,
+    function(f) as.numeric(xml_text_field(cycle_node, f))
   )
-  # add the column names from the <Header> node
-  colnames(row_tbl) <- column_names
-  # add athlete and cycle data as columns, each with same value for all rows
-  for (field in athlete_fields) {
-    row_tbl[[field]] <- athlete_data[[field]]
+  names(cycle_values) <- cycle_fields
+
+  # Row measurement data
+  header_node <- xml2::xml_find_first(xml, ".//Header")
+  if (is.na(xml2::xml_name(header_node))) {
+    stop("Missing <Header> node in .c2d file.", call. = FALSE)
   }
-  for (field in cycle_fields) {
-    row_tbl[[field]] <- cycle_data[[field]]
+  col_names <- strsplit(xml2::xml_text(header_node), ";")[[1]]
+
+  rows_node <- xml2::xml_find_first(xml, ".//Rows")
+  if (is.na(xml2::xml_name(rows_node))) {
+    stop("Missing <Rows> node in .c2d file.", call. = FALSE)
   }
-  # reorder columns; 1) athlete data, 2) cycle data, 3) row data
-  full_tbl <- row_tbl |>
-    dplyr::select(
-      dplyr::all_of(athlete_fields),
-      dplyr::all_of(cycle_fields),
-      dplyr::everything()
-    )
-  return(full_tbl)
+
+  row_nodes <- xml2::xml_children(rows_node)
+
+  # Convert each <R*> to a tibble row
+  row_list <- lapply(
+    row_nodes,
+    function(node) {
+      values <- strsplit(xml2::xml_text(node), ";")[[1]]
+      numeric_vals <- as.numeric(values)
+      tibble::as_tibble_row(stats::setNames(as.list(numeric_vals), col_names))
+    }
+  )
+
+  # Combine measurement rows
+  data_tbl <- tibble::as_tibble(do.call(rbind, row_list))
+
+  # Append metadata (recycles across rows)
+  for (nm in athlete_fields) data_tbl[[nm]] <- athlete_values[[nm]]
+  for (nm in cycle_fields)   data_tbl[[nm]] <- cycle_values[[nm]]
+
+  # Final column order: Athlete → Cycle → Measurements
+  ordered_cols <- c(
+    athlete_fields,
+    cycle_fields,
+    setdiff(names(data_tbl), c(athlete_fields, cycle_fields))
+  )
+
+  tibble::as_tibble(data_tbl[ordered_cols])
 }
