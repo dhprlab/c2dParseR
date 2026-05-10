@@ -35,6 +35,7 @@ You can install the development version of c2dParseR from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("dhprlab/c2dParseR")
 ```
@@ -44,6 +45,7 @@ pak::pak("dhprlab/c2dParseR")
 To import data from a `.c2d` (gzip-compressed XML) file:
 
 ``` r
+
 library(c2dParseR)
 # data <- c2dimport("path/to/your/example.c2d")
 ```
