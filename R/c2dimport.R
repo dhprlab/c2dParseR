@@ -59,7 +59,9 @@ c2dimport <- function(path) {
   con <- gzcon(file(path, "rb"))
   xml <- tryCatch(
     xml2::read_xml(con),
-    error = function(e) stop("Failed to read .c2d file: ", e$message, call. = FALSE)
+    error = function(e)
+      stop("Failed to read file; does path point to a raw .c2d file?\n",
+           "Error message from read_xml(): ", e$message, call. = FALSE)
   )
   close(con)
 
